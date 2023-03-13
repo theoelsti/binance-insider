@@ -33,7 +33,7 @@ def insert_trade(trade,trader_uid,msg_id):
 
 def get_trades(trader_uid):
     """
-    Get all trades for a trader
+    Get all trades for a trader from the database
     """
     conn.reconnect()
     cursor = conn.cursor()

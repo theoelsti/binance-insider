@@ -1,7 +1,10 @@
 import requests
 import json
 import time
-import sqlFunctions as sql
+import sql_functions as sql
+HEADERS = {
+        'Content-Type': 'application/json'
+    }
 
 def get_top_traders(x,trade_type="PERPETUAL"):
     """
@@ -17,9 +20,8 @@ def get_top_traders(x,trade_type="PERPETUAL"):
         "statisticsType": "ROI",
         "tradeType": trade_type
     }
-    headers = {
-        'Content-Type': 'application/json'
-    }
+    headers = HEADERS
+
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     response = response.json()['data']
     for trader in response[:x]:
@@ -35,9 +37,7 @@ def get_trader_trades(trader_uid, trade_type="PERPETUAL"):
         "encryptedUid": trader_uid,
         "tradeType": trade_type
     }
-    headers = {
-        'Content-Type': 'application/json'
-    }
+    headers = HEADERS
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     response = response.json()['data']['otherPositionRetList']
     return response
@@ -50,9 +50,7 @@ def get_trader_infos(trader_uid):
     payload = {
         "encryptedUid": trader_uid
     }
-    headers = {
-        'Content-Type': 'application/json'
-    }
+    headers = HEADERS
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     response = response.json()['data']
 
