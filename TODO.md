@@ -1,0 +1,39 @@
+- [] Toutes les 10 secondes :
+    - [] Récupérer les trades avec le moins de requêtes possibles	
+    - [] Regarder dans la base de données si un trade existe dedans mais pas dans la réponse : Trade supprimé
+        - [] Si oui : Supprimer le trade de la base de données
+            - [] Calculer le profit du trade 
+            - [] Envoyer un message sur le channel de notification
+    - [] Si le timestamp du trade n'existe pas dans la base de données :
+        - [] Récupérer les informations du trade 
+            - [] Insérer dans la base de données
+    - [] Si le timestamp du trade existe dans la base de données :
+        - [] Récupérer les informations du trade 
+        - [] Si le trade a été mis a jour :
+            - [] Mettre a jour le trade dans la base de données
+            - [] Envoyer un message sur le channel de notification
+
+- [] Si le client envoie une demande d'abonnement
+    -  [] Proposer les 3 offres : 1 mois, 3 mois, 1an, a vie
+        - [] Si une offre séléctionnée : 
+            - [] Récupérer les informations de l'offre (prix)
+            - [] Générer une addresse unique de paiement
+            - [] Lancer une boucle de 1h
+                - [] Si le paiement est recu à 3€ près avec 3 confirmations :
+                    - [] Mettre a jour la base de données
+                    - [] Sortir de la boucle
+                - [] Si le paiement est recu avec moins de 3 euros :
+                    - [] Avertir le client qu'il manque des sous
+                - [] Si le timer de 1h est dépassé
+                    - [] Avertir le client que le paiement n'a pas été reçu
+
+- [] DB 
+    - [] Table trade 
+        - [] tradeId : timestamp du trade
+        - [] tradeSymbol
+        - [] tradeType : type de trade (buy, sell)
+        - [] tradeLeverage
+        - [] tradePrice : prix du trade
+        - [] tradeAmount : montant du trade
+        - [] tradeMarketPrice : prix du marché
+        - [] tradeROI : ROI du trade
