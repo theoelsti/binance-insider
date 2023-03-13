@@ -1,24 +1,21 @@
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+
+import sqlFunctions
 import binance
-# # Build a telegram bot that is used by clients that want to purchase my private channel, and kick them after a month
-
-# Create the command subscribe 
-
-test_trades = binance.get_trader_trades("A6CCDBA73F3002E07F19C2D196E3CEA6")
-
-for trade in test_trades:
-     print(trade)
+import trades as trades_functions
+import bot_actions as bot
 
 
 
+top10 =  binance.get_top_traders(10)
+
+for trader_id,trader_name in top10:
+     sqlFunctions.insert_trader(trader_id,trader_name)
      
-# async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-#     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
+     trades = binance.get_trader_trades(trader_id)
 
-
-# app = ApplicationBuilder().token("6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM").build()
-
-# app.add_handler(CommandHandler("hello", hello))
-
-# app.run_polling()
+     # Vérifie si le trade est déjà enregistré
+     for trade in trades:
+          stored_trades = sqlFunctions.get_trades(trader_id)
+          if(trades_functions.check_for_new_trade(stored_trades,trade)):
+               msg_id = bot.send_message_to_channel("Nouveau trade détécté 🚨 \nTrader: {} \nPaire: {} \nTrade: {} \n Prix d'achat: {}".format(trader_name,trade['symbol'],"Long 🟢" if trade['amount'] > 0 else "Short 🔴",trade['entryPrice']))
+               sqlFunctions.insert_trade(trade,trader_id,msg_id)

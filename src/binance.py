@@ -23,7 +23,7 @@ def get_top_traders(x,trade_type="PERPETUAL"):
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     response = response.json()['data']
     for trader in response[:x]:
-        traders.append(trader['encryptedUid'])
+        traders.append([trader['encryptedUid'],  trader['nickName']])
     return traders
 
 def get_trader_trades(trader_uid, trade_type="PERPETUAL"):

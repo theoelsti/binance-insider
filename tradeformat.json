@@ -1,0 +1,13 @@
+[
+    {"symbol": "TRUUSDT", 
+    "entryPrice": 0.1044304405559, 
+    "markPrice": 0.11269283, 
+    "pnl": 8220.47489553, 
+    "roe": 0.73317797, 
+    "updateTime": [2023, 3, 13, 5, 2, 35, 182000000], 
+    "amount": 994927, 
+    "updateTimeStamp": 1678683755182, 
+    "yellow": true, 
+    "tradeBefore": false, 
+    "leverage": 10}
+]

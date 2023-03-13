@@ -4,9 +4,9 @@
         - [] Si oui : Supprimer le trade de la base de données
             - [] Calculer le profit du trade 
             - [] Envoyer un message sur le channel de notification
-    - [] Si le timestamp du trade n'existe pas dans la base de données :
-        - [] Récupérer les informations du trade 
-            - [] Insérer dans la base de données
+    - [v] Si le timestamp du trade n'existe pas dans la base de données :
+        - [v] Récupérer les informations du trade 
+            - [v] Insérer dans la base de données
     - [] Si le timestamp du trade existe dans la base de données :
         - [] Récupérer les informations du trade 
         - [] Si le trade a été mis a jour :
@@ -26,14 +26,3 @@
                     - [] Avertir le client qu'il manque des sous
                 - [] Si le timer de 1h est dépassé
                     - [] Avertir le client que le paiement n'a pas été reçu
-
-- [] DB 
-    - [] Table trade 
-        - [] tradeId : timestamp du trade
-        - [] tradeSymbol
-        - [] tradeType : type de trade (buy, sell)
-        - [] tradeLeverage
-        - [] tradePrice : prix du trade
-        - [] tradeAmount : montant du trade
-        - [] tradeMarketPrice : prix du marché
-        - [] tradeROI : ROI du trade
