@@ -1,6 +1,6 @@
 import requests
 import json
-import time
+from time import sleep
 import sql_functions as sql
 HEADERS = {
         'Content-Type': 'application/json'
@@ -15,7 +15,7 @@ def get_top_traders(x,trade_type="PERPETUAL"):
     url = "https://www.binance.com/bapi/futures/v3/public/future/leaderboard/getLeaderboardRank"
     payload = {
         "isShared": True,
-        "isTrader": True,
+        "isTrader": False,
         "periodType": "MONTHLY",
         "statisticsType": "ROI",
         "tradeType": trade_type
@@ -38,7 +38,7 @@ def get_trader_trades(trader_uid, trade_type="PERPETUAL"):
         "tradeType": trade_type
     }
     headers = HEADERS
-    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))    
     response = response.json()['data']['otherPositionRetList']
     return response
 

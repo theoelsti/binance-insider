@@ -30,6 +30,14 @@ def insert_trader(id,name):
    cursor = conn.cursor()
    cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)",(id,name))
    conn.commit()
+def count_total_trades():
+    """
+    Count total trades in the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM trades")
+    return cursor.fetchone()[0]
 
 def delete_trade(trade_id):
     """

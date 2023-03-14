@@ -42,9 +42,9 @@ async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
 
-def init_app():   
+async def init_app():   
     app = ApplicationBuilder().token(BOT_API_KEY).build()
-    app.add_handler(CommandHandler("hello", hello))
-    app.add_handler(CommandHandler("subscribe", subscribe))
-    app.add_handler(CallbackQueryHandler(keyboard_callback))
-    app.run_polling()
+    await app.add_handler(CommandHandler("hello", hello))
+    await app.add_handler(CommandHandler("subscribe", subscribe))
+    await app.add_handler(CallbackQueryHandler(keyboard_callback))
+    await app.run_polling()
