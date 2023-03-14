@@ -37,7 +37,6 @@ async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     "Choisissez un forfait d'abonnement :",
     reply_markup=reply_markup)  
 
-
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f'Hello {update.effective_user.first_name}')
 
