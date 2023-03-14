@@ -1,5 +1,6 @@
 import mysql.connector
 import hashlib
+from trades import get_trade_hash
 # Connect to the database
 conn = mysql.connector.connect(
   host="localhost",
@@ -7,6 +8,19 @@ conn = mysql.connector.connect(
   password="rBAduV01020%65h$RVZ^q98y0MyI1",
   database="binance_insider"
 )
+
+def get_trader_username(id):
+    """
+    Fetch the trader username from the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM traders WHERE uid = '{}'".format(id))
+    result = cursor.fetchone()
+    if result:
+        return result[0]
+    else:
+        return None
 
 def insert_trader(id,name):
    """
@@ -24,8 +38,7 @@ def insert_trade(trade,trader_uid,msg_id):
     conn.reconnect()
     cursor = conn.cursor()
 
-    id_str = trade['symbol'] + str(trade['leverage'])
-    id_hash = hashlib.sha256(id_str.encode()).hexdigest()
+    id_hash = get_trade_hash(trade, trader_uid)
 
     query = "INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id) VALUES ('{}', '{}', {}, {}, {}, {}, {}, '{}', {}, {}, '{}',{})".format(id_hash, trade['symbol'], trade['entryPrice'], trade['markPrice'], trade['pnl'], trade['roe'], trade['amount'], trade['updateTimeStamp'], trade['leverage'], 1 if trade['amount'] > 0 else 0, trader_uid,msg_id)
     cursor.execute(query)
