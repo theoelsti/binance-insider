@@ -1,28 +1,29 @@
-- [] Toutes les 10 secondes :
-    - [] Récupérer les trades avec le moins de requêtes possibles	
-    - [] Regarder dans la base de données si un trade existe dedans mais pas dans la réponse : Trade supprimé
-        - [] Si oui : Supprimer le trade de la base de données
-            - [] Calculer le profit du trade 
-            - [] Envoyer un message sur le channel de notification
-    - [v] Si le timestamp du trade n'existe pas dans la base de données :
-        - [v] Récupérer les informations du trade 
-            - [v] Insérer dans la base de données
-    - [] Si le timestamp du trade existe dans la base de données :
-        - [] Récupérer les informations du trade 
-        - [] Si le trade a été mis a jour :
-            - [] Mettre a jour le trade dans la base de données
-            - [] Envoyer un message sur le channel de notification
+- [ ] Toutes les 10 secondes :
+    - [ ] Récupérer les trades avec le moins de requêtes possibles	
+    - [x] Regarder dans la base de données si un trade existe dedans mais pas dans la réponse : Trade supprimé
+        - [x] Si oui : Supprimer le trade de la base de données
+            - [x] Calculer le profit du trade 
+            - [x] Envoyer un message sur le channel de notification
+    - [x] Si le timestamp du trade n'existe pas dans la base de données :
+        - [x] Récupérer les informations du trade 
+            - [x] Insérer dans la base de données
+    - [ ] Si le timestamp du trade existe dans la base de données :
+        - [x] Récupérer les informations du trade 
+        - [ ]Mettre à jour le ROE
+        - [ ] Si le trade a été mis a jour :
+            - [ ] Mettre a jour le trade dans la base de données
+            - [ ] Envoyer un message sur le channel de notification
 
-- [] Si le client envoie une demande d'abonnement
-    -  [] Proposer les 3 offres : 1 mois, 3 mois, 1an, a vie
-        - [] Si une offre séléctionnée : 
-            - [] Récupérer les informations de l'offre (prix)
-            - [] Générer une addresse unique de paiement
-            - [] Lancer une boucle de 1h
-                - [] Si le paiement est recu à 3€ près avec 3 confirmations :
-                    - [] Mettre a jour la base de données
-                    - [] Sortir de la boucle
-                - [] Si le paiement est recu avec moins de 3 euros :
-                    - [] Avertir le client qu'il manque des sous
-                - [] Si le timer de 1h est dépassé
-                    - [] Avertir le client que le paiement n'a pas été reçu
+- [ ] Si le client envoie une demande d'abonnement
+    -  [x] Proposer les 4 offres : 1 mois, 3 mois, 1an, a vie
+        - [ ] Si une offre séléctionnée : 
+            - [ ] Récupérer les informations de l'offre (prix)
+            - [ ] Générer une addresse unique de paiement
+            - [ ] Lancer une boucle de 1h
+                - [ ] Si le paiement est recu à 3€ près avec 3 confirmations :
+                    - [ ] Mettre a jour la base de données
+                    - [ ] Sortir de la boucle
+                - [ ] Si le paiement est recu avec moins de 3 euros :
+                    - [ ] Avertir le client qu'il manque des sous
+                - [ ] Si le timer de 1h est dépassé
+                    - [ ] Avertir le client que le paiement n'a pas été reçu
