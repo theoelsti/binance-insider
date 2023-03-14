@@ -2,6 +2,7 @@ import requests
 import json
 from time import sleep
 import sql_functions as sql
+import errors_printing as errors
 HEADERS = {
         'Content-Type': 'application/json'
     }
@@ -38,10 +39,15 @@ def get_trader_trades(trader_uid, trade_type="PERPETUAL"):
         "tradeType": trade_type
     }
     headers = HEADERS
-    response = requests.request("POST", url, headers=headers, data=json.dumps(payload)) 
+    try: 
+        response = requests.request("POST", url, headers=headers, data=json.dumps(payload)) 
+    except Exception as e:
+        errors.print_error("Error while fetching trades for trader : " + trader_uid)
+        errors.print_error(e)
+        
     if(response.status_code != 200):
-        print("Error while fetching trades for trader : " + trader_uid)
-        print(response)
+        errors.print_error("Error while fetching trades for trader : " + trader_uid)
+        print(response.status_code)
         sleep(10)
         return get_trader_trades(trader_uid, trade_type)
     response = response.json()['data']['otherPositionRetList']

@@ -1,7 +1,7 @@
 import mysql.connector
 import hashlib
 from trades import get_trade_hash
-
+import errors_printing as errors
 # Connect to the database
 conn = mysql.connector.connect(
     host="localhost",
@@ -53,6 +53,9 @@ def delete_trade(trade_id):
     cursor = conn.cursor()
     cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade_id))
     conn.commit()
+    # Check if well deleted
+    cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade_id))
+    return cursor.fetchone()[0] == 0
 
 
 def insert_trade(trade, trader_uid, msg_id):
@@ -78,7 +81,11 @@ def insert_trade(trade, trader_uid, msg_id):
         trader_uid,
         msg_id,
     )
-    cursor.execute(query)
+    try:
+        cursor.execute(query)
+    except Exception as e:
+        errors.print("Failed to insert trade into the database: " + str(e))
+
     conn.commit()
 
 
