@@ -38,7 +38,12 @@ def get_trader_trades(trader_uid, trade_type="PERPETUAL"):
         "tradeType": trade_type
     }
     headers = HEADERS
-    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))    
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload)) 
+    if(response.status_code != 200):
+        print("Error while fetching trades for trader : " + trader_uid)
+        print(response)
+        sleep(10)
+        return get_trader_trades(trader_uid, trade_type)
     response = response.json()['data']['otherPositionRetList']
     return response
 

@@ -1,13 +1,15 @@
 import mysql.connector
 import hashlib
 from trades import get_trade_hash
+
 # Connect to the database
 conn = mysql.connector.connect(
-  host="localhost",
-  user="prod",
-  password="rBAduV01020%65h$RVZ^q98y0MyI1",
-  database="binance_insider"
+    host="localhost",
+    user="prod",
+    password="rBAduV01020%65h$RVZ^q98y0MyI1",
+    database="binance_insider",
 )
+
 
 def get_trader_username(id):
     """
@@ -22,14 +24,17 @@ def get_trader_username(id):
     else:
         return None
 
-def insert_trader(id,name):
-   """
-   Insert trader uid & name into the database
-   """
-   conn.reconnect()
-   cursor = conn.cursor()
-   cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)",(id,name))
-   conn.commit()
+
+def insert_trader(id, name):
+    """
+    Insert trader uid & name into the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)", (id, name))
+    conn.commit()
+
+
 def count_total_trades():
     """
     Count total trades in the database
@@ -38,6 +43,7 @@ def count_total_trades():
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM trades")
     return cursor.fetchone()[0]
+
 
 def delete_trade(trade_id):
     """
@@ -48,7 +54,8 @@ def delete_trade(trade_id):
     cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade_id))
     conn.commit()
 
-def insert_trade(trade,trader_uid,msg_id):
+
+def insert_trade(trade, trader_uid, msg_id):
     """
     Insert trade into the database
     """
@@ -57,9 +64,23 @@ def insert_trade(trade,trader_uid,msg_id):
 
     id_hash = get_trade_hash(trade, trader_uid)
 
-    query = "INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id) VALUES ('{}', '{}', {}, {}, {}, {}, {}, '{}', {}, {}, '{}',{})".format(id_hash, trade['symbol'], trade['entryPrice'], trade['markPrice'], trade['pnl'], trade['roe'], trade['amount'], trade['updateTimeStamp'], trade['leverage'], 1 if trade['amount'] > 0 else 0, trader_uid,msg_id)
+    query = "INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id) VALUES ('{}', '{}', {}, {}, {}, {}, {}, '{}', {}, {}, '{}',{})".format(
+        id_hash,
+        trade["symbol"],
+        trade["entryPrice"],
+        trade["markPrice"],
+        trade["pnl"],
+        trade["roe"],
+        trade["amount"],
+        trade["updateTimeStamp"],
+        trade["leverage"],
+        1 if trade["amount"] > 0 else 0,
+        trader_uid,
+        msg_id,
+    )
     cursor.execute(query)
     conn.commit()
+
 
 def get_trades(trader_uid):
     """
