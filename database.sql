@@ -1,4 +1,4 @@
-CREATE DATABASE binance_insider
+CREATE DATABASE binance_insider;
 USE binance_insider;
 
 -- Path: database.sql
@@ -6,10 +6,10 @@ USE binance_insider;
 
 CREATE TABLE `traders` (
   `uid` varchar(255) NOT NULL,
-  `name` text DEFAULT NULL,
+  `name` text DEFAULT NULL
 )
 
-CREATE TABLE `trades` 
+CREATE TABLE `trades`;
 ALTER TABLE `traders` ADD PRIMARY KEY(`uid`);
 
 
