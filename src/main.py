@@ -4,6 +4,7 @@ import binance
 import trades as trades_functions
 import bot_actions as bot
 from time import sleep
+from bot_user_app import init_app
 def main():
     top10 =  binance.get_top_traders(10)
     for trader_id,trader_name in top10:
@@ -22,8 +23,8 @@ def main():
 if __name__ == "__main__":
      try:
           while True:
+               init_app()
                main()
                sleep(20)
      except KeyboardInterrupt:
           print("Exiting")
-          
