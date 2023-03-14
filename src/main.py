@@ -3,7 +3,7 @@ import sql_functions
 import binance
 import trades as trades_functions
 import bot_actions as bot
-
+from time import sleep
 def main():
     top10 =  binance.get_top_traders(10)
     for trader_id,trader_name in top10:
@@ -16,7 +16,14 @@ def main():
                 sql_functions.insert_trade(trade,trader_id,msg_id)
         for s_trade in stored_trades:
             if(trades_functions.check_for_closed_trade(trades,s_trade)):
-                bot.reply_message_to_channel("""Trade cloturé 🚨 \nTrader: {} \nPaire: {} \nTrade: {} \nProfit: {}% \nPrix de fermeture: {}""".format(trader_name,s_trade[1],"Long 🟢" if s_trade[6] > 0 else "Short 🔴",round(float(s_trade[5]),2)*100 ,s_trade[3]),s_trade[9])
+                sql_functions.delete_trade(s_trade[0])
+                bot.reply_message_to_channel("""Trade cloturé ✅ \nTrader: {} \nPaire: {} \nTrade: {} \nProfit: {}% \nPrix de fermeture: {}""".format(trader_name,s_trade[1],"Long 🟢" if s_trade[6] > 0 else "Short 🔴",round(float(s_trade[5]),2)*100 ,s_trade[3]),s_trade[9])
 
 if __name__ == "__main__":
-    main()
+     try:
+          while True:
+               main()
+               sleep(20)
+     except KeyboardInterrupt:
+          print("Exiting")
+          

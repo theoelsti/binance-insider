@@ -31,6 +31,15 @@ def insert_trader(id,name):
    cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)",(id,name))
    conn.commit()
 
+def delete_trade(trade_id):
+    """
+    Delete trade from the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade_id))
+    conn.commit()
+
 def insert_trade(trade,trader_uid,msg_id):
     """
     Insert trade into the database

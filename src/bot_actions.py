@@ -1,4 +1,3 @@
-
 import requests
 
 BOT_API_KEY = '6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM'
