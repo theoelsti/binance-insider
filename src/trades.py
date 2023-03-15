@@ -21,7 +21,7 @@ def check_for_new_trade(stored_trades, trade_a):
             new = False
             profit = sql_functions.check_for_profit(trade_l)
             if profit:
-                reply_profit_to_channel(trade_l[1], profit, trade_l[7], trade_l[9])
+                reply_profit_trade_to_channel(trade_l[1], profit, trade_l[7], trade_l[9])
             break
     return new
 
