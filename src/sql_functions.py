@@ -4,10 +4,11 @@ import errors_printing as errors
 from time import time
 
 conn = mysql.connector.connect(
-    host="localhost",
-    user="prod",
+    host="193.70.43.232",
+    user="prod_script",
     password="rBAduV01020%65h$RVZ^q98y0MyI1",
     database="binance_insider",
+    auth_plugin="mysql_native_password"
 )
 
 def get_trader_username(id):
@@ -115,6 +116,8 @@ def update_trade(trade,trade_id ):
     conn.commit()
 
 def check_for_profit(s_trade):
+
+
     """
     Check if the trade is in profit
     """
@@ -137,3 +140,21 @@ def check_for_profit(s_trade):
             return int(announced_trade)+20
         else: 
             return 0
+        
+def insert_token(token,type):
+    """
+    Insert token into the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO subscription_tokens (token,subscription_type) VALUES ('{}', '{}')".format(token, type))
+    conn.commit()
+
+def get_tokens(type):
+    """
+    Get all tokens from the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT token FROM subscription_tokens WHERE subscription_type = '{}'".format(type))
+    return cursor.fetchall()
