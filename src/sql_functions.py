@@ -122,11 +122,11 @@ def check_for_profit(s_trade):
         announced_trade = result[1]
         roe_percentage = int(roe * 100)
 
-        if  roe_percentage > announced_trade+20:
+        if  int(roe_percentage) > int(announced_trade)+20:
             # Update the announced_trade value in the database.
-            cursor.execute("UPDATE trades SET announced_trade = {} WHERE id = '{}'".format(roe_percentage, trade_id))
+            cursor.execute("UPDATE trades SET announced_trade = {} WHERE id = '{}'".format(roe_percentage, s_trade[0]))
             conn.commit()
-            return announced_trade+20
+            return int(announced_trade)+20
         else: 
             return 0
 
