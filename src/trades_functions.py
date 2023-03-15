@@ -13,5 +13,3 @@ def check_closed_trades(trades, stored_trades,trader_name,trader_id):
           if trades_functions.check_for_new_trade(stored_trades, trade):
             msg_id = bot.send_open_trade_message_to_channel(trade, trader_name)
             sql_functions.insert_trade(trade, trader_id, msg_id)
-          else:
-               
