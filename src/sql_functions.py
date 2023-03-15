@@ -1,5 +1,4 @@
 import mysql.connector
-import hashlib
 from trades import get_trade_hash
 import errors_printing as errors
 # Connect to the database
@@ -97,3 +96,11 @@ def get_trades(trader_uid):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM trades WHERE trader_uid = '{}'".format(trader_uid))
     return cursor.fetchall()
+
+def update_trade(trade,trade_id ):
+    """
+    Update the trade in the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE trades SET mark_price = {}, pnl = {}, roe = {}, amount = {}, update_timestamp = '{}' WHERE id = '{}';".format(trade["markPrice"],trade["pnl"],trade["roe"],trade["amount"],trade["updateTimeStamp"],trade_id))

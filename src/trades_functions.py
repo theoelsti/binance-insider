@@ -7,6 +7,8 @@ def check_opened_trades(trades, stored_trades,trader_name):
           if trades_functions.check_for_closed_trade(trades, s_trade):
                sql_functions.delete_trade(s_trade[0])
                bot.reply_closed_trade_to_channel(s_trade, trader_name)
+          
+
 
 def check_closed_trades(trades, stored_trades,trader_name,trader_id):
      for trade in trades:

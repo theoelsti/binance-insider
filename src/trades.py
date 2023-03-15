@@ -1,5 +1,5 @@
 import hashlib
-
+import sql_functions
 
 def get_trade_hash(trade, trader_uid):
     """
@@ -32,5 +32,6 @@ def check_for_closed_trade(api_trades, stored_trade):
         id_hash = get_trade_hash(trade, stored_trade[11])
         if id_hash == stored_trade[0]:
             closed = False
+            sql_functions.update_trade(trade, stored_trade[0])
             break
     return closed
