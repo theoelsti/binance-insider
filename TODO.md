@@ -23,12 +23,16 @@
     -  [x] Proposer les 4 offres : 1 mois, 3 mois, 1an, a vie
         - [ ] Si une offre séléctionnée : 
             - [ ] Récupérer les informations de l'offre (prix)
-            - [ ] Générer une addresse unique de paiement
-            - [ ] Lancer une boucle de 1h
-                - [ ] Si le paiement est recu à 3€ près avec 3 confirmations :
-                    - [ ] Mettre a jour la base de données
-                    - [ ] Sortir de la boucle
-                - [ ] Si le paiement est recu avec moins de 3 euros :
-                    - [ ] Avertir le client qu'il manque des sous
-                - [ ] Si le timer de 1h est dépassé
-                    - [ ] Avertir le client que le paiement n'a pas été reçu
+            - [ ] Envoyer le lien vers la page
+- [] Si le client envoie une demande de Join 
+ - [] demander le token 
+   - Vérifier dans la base de données avec une requête préparée 
+  - Si oui envoyer le lien d'invitation 
+  - Si non le tej 
+- Tous les jours à 21h
+ - [] Récupérer les trades clôtures du jour
+  - [] Mettre en forme un message
+   - [] Top et Flop
+   - [] Roe Cumule
+   - [] Bénéfices fais si 25 euros investis avec 2% à chaque trade
+   - Lien vers le bot et la boutique 
