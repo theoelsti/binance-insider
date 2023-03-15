@@ -106,4 +106,28 @@ def update_trade(trade,trade_id ):
     cursor = conn.cursor()
     cursor.execute("UPDATE trades SET mark_price= {}, pnl = {}, roe = {}, amount = {}, update_timestamp = '{}' WHERE id = '{}';".format(trade["markPrice"],trade["pnl"],trade["roe"],trade["amount"],trade["updateTimeStamp"],trade_id))
     conn.commit()
+
+def check_for_profit(s_trade):
+    """
+    Check if the trade is in profit
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT roe,announced_roe FROM trades WHERE id = '{}'".format(s_trade[0]))
+
+    result = cursor.fetchone()
+    
+    if result:
+        roe = result[0]
+        announced_trade = result[1]
+        roe_percentage = int(roe * 100)
+
+        if  roe_percentage > announced_trade+20:
+            # Update the announced_trade value in the database.
+            cursor.execute("UPDATE trades SET announced_trade = {} WHERE id = '{}'".format(roe_percentage, trade_id))
+            conn.commit()
+            return announced_trade+20
+        else: 
+            return 0
+
     

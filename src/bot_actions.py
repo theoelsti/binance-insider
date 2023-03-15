@@ -72,3 +72,22 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
         print("Retry after "+str(response.json()['parameters']['retry_after'])+" seconds")
         sleep(response.json()['parameters']['retry_after'])
         reply_closed_trade_to_channel(s_trade,trader_name)
+
+def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
+    message_text =  """📩Pair: {} \n\n✅Profit: {}%\n⌛️Time: {}""".format(
+                        pair,
+                        profit,
+                        format_timestamp(time()-timestamp)
+                    )
+    response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
+        'chat_id': CHANNEL_NAME,
+        'reply_to_message_id': message_id,
+        'text': message_text
+    })
+    if response.status_code == 200:
+        return response.json()['result']['message_id']
+    else:
+        print("Error during message reply : "+response.text)  # Do what you want with response
+        print("Retry after "+str(response.json()['parameters']['retry_after'])+" seconds")
+        sleep(response.json()['parameters']['retry_after'])
+        reply_profit_trade_to_channel(pair,profit,timestamp,message_id)

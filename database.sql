@@ -26,6 +26,7 @@ CREATE TABLE trades (
     telegram_message_id BIGINT,
     type INT NOT NULL,
     trader_uid VARCHAR(255) NOT NULL,
+    announced_roe FLOAT,
     PRIMARY KEY (id),
     FOREIGN KEY (trader_uid) REFERENCES traders(uid)
 );
