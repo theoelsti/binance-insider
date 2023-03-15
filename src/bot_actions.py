@@ -54,7 +54,7 @@ def reply_message_to_channel(message_text,message_id):
         reply_message_to_channel(message_text,message_id)
 
 def reply_closed_trade_to_channel(s_trade,trader_name):
-    message_text =  """📩Pair: {} \n\n⚠️Close trade trade\n✅Profit: {}%\n⌛️Time: {}""".format(
+    message_text =  """📩Pair: {} \n\n⚠️Close trade\n✅Profit: {}%\n⌛️Time: {}""".format(
                         s_trade[1],
                         round(float(s_trade[5])*100, 2),
                         format_timestamp(time()-s_trade[7])
