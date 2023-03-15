@@ -111,7 +111,7 @@ def update_trade(trade,trade_id ):
     """
     conn.reconnect()
     cursor = conn.cursor()
-    cursor.execute("UPDATE trades SET mark_price= {}, pnl = {}, roe = {}, amount = {}, update_timestamp = '{}' WHERE id = '{}';".format(trade["markPrice"],trade["pnl"],trade["roe"],trade["amount"],trade["updateTimeStamp"],trade_id))
+    cursor.execute("UPDATE trades SET mark_price= {}, pnl = {}, roe = {}, amount = {} WHERE id = '{}';".format(trade["markPrice"],trade["pnl"],trade["roe"],trade["amount"],trade_id))
     conn.commit()
 
 def check_for_profit(s_trade):
