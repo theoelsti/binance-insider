@@ -11,7 +11,9 @@ def format_timestamp(timestamp):
 
     # Format the time difference
     formatted_time = []
-
+    print("days: "+str(days))
+    print("hours: "+str(hours))
+    print("minutes: "+str(minutes))
     if days > 0:
         formatted_time.append(f"{days} day{'s' if days > 1 else ''}")
 
