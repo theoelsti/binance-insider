@@ -105,6 +105,6 @@ def update_trade(trade,trade_id ):
     cursor = conn.cursor()
     cursor.execute("UPDATE trades SET mark_price= {}, pnl = {}, roe = {}, amount = {}, update_timestamp = '{}' WHERE id = '{}';".format(trade["markPrice"],trade["pnl"],trade["roe"],trade["amount"],trade["updateTimeStamp"],trade_id))
     # Get the affected rows
-    print(cursor)
+    print(cursor.rowcount, "record(s) affected")
     conn.commit()
     
