@@ -1,6 +1,7 @@
 import mysql.connector
 from trades import get_trade_hash
 import errors_printing as errors
+from time import time
 # Connect to the database
 conn = mysql.connector.connect(
     host="localhost",
@@ -74,7 +75,7 @@ def insert_trade(trade, trader_uid, msg_id):
         trade["pnl"],
         trade["roe"],
         trade["amount"],
-        trade["updateTimeStamp"],
+        time(),
         trade["leverage"],
         1 if trade["amount"] > 0 else 0,
         trader_uid,

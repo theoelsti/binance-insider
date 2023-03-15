@@ -1,6 +1,7 @@
 import requests
-from time import sleep
+from time import sleep,time
 import errors_printing as errors
+from misc_functions import format_timestamp
 BOT_API_KEY = '6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM'
 CHANNEL_NAME = '-1001835398982'
 
@@ -18,7 +19,7 @@ def send_message_to_channel(message_text):
         send_message_to_channel(message_text)
 
 def send_open_trade_message_to_channel(trade,trader_name):
-    message_text = "🚨 New trade  \n📩Pair: {} \n{}\n💯Leverage: Cross {}x \n\n📊Entry: {}\n🧑Trader: {}".format(
+    message_text = "📩Pair: {} \n{}\n💯Leverage: Cross {}x \n\n📊Entry: {}\n🧑Trader: {}".format(
                         trade["symbol"],
                         "📈Direction: Long" if trade["amount"] > 0 else "📉Direction: Short",
                         trade["leverage"],
@@ -53,10 +54,10 @@ def reply_message_to_channel(message_text,message_id):
         reply_message_to_channel(message_text,message_id)
 
 def reply_closed_trade_to_channel(s_trade,trader_name):
-    message_text =  """⚠️Closed trade\n\n📩Pair: {} \n✅Profit: {}% \nClosing Price: {}""".format(
+    message_text =  """📩Pair: {} \n\n⚠️Close trade trade\n✅Profit: {}\n⌛️Time: {}%""".format(
                         s_trade[1],
                         round(float(s_trade[5])*100, 2),
-                        s_trade[3]
+                        format_timestamp(time()-s_trade[7])
                     )
     
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
