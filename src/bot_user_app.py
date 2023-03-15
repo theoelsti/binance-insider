@@ -7,9 +7,7 @@ from telegram.ext import (
     Updater,
     CallbackQueryHandler,
 )
-
 BOT_API_KEY = "6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM"
-
 
 async def keyboard_callback(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
@@ -25,7 +23,6 @@ async def keyboard_callback(update: Update, context: CallbackContext) -> None:
         payment_protocol = "Payment protocol for lifetime subscription."
 
     await query.edit_message_text(text=payment_protocol)
-
 
 async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     keyboard = [
@@ -43,10 +40,8 @@ async def subscribe(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "Choisissez un forfait d'abonnement :", reply_markup=reply_markup
     )
 
-
 async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text(f"Hello {update.effective_user.first_name}")
-
 
 async def init_app():
     app = ApplicationBuilder().token(BOT_API_KEY).build()

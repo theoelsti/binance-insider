@@ -2,14 +2,13 @@ import mysql.connector
 from trades import get_trade_hash
 import errors_printing as errors
 from time import time
-# Connect to the database
+
 conn = mysql.connector.connect(
     host="localhost",
     user="prod",
     password="rBAduV01020%65h$RVZ^q98y0MyI1",
     database="binance_insider",
 )
-
 
 def get_trader_username(id):
     """
@@ -24,7 +23,6 @@ def get_trader_username(id):
     else:
         return None
 
-
 def insert_trader(id, name):
     """
     Insert trader uid & name into the database
@@ -34,7 +32,6 @@ def insert_trader(id, name):
     cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)", (id, name))
     conn.commit()
 
-
 def count_total_trades():
     """
     Count total trades in the database
@@ -43,7 +40,6 @@ def count_total_trades():
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM trades")
     return cursor.fetchone()[0]
-
 
 def delete_trade(trade_id):
     """
@@ -57,6 +53,18 @@ def delete_trade(trade_id):
     cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade_id))
     return cursor.fetchone()[0] == 0
 
+def delete_trader(trader_uid):
+    """
+    Delete trader from the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM trades WHERE trader_uid = '{}'".format(trader_uid))
+    cursor.execute("DELETE FROM traders WHERE uid = '{}'".format(trader_uid))
+    conn.commit()
+    # Check if well deleted
+    cursor.execute("SELECT COUNT(*) FROM trades WHERE trader_uid = '{}'".format(trader_uid))
+    return cursor.fetchone()[0] == 0
 
 def insert_trade(trade, trader_uid, msg_id):
     """
@@ -87,7 +95,6 @@ def insert_trade(trade, trader_uid, msg_id):
         errors.print("Failed to insert trade into the database: " + str(e))
 
     conn.commit()
-
 
 def get_trades(trader_uid):
     """
@@ -130,5 +137,3 @@ def check_for_profit(s_trade):
             return int(announced_trade)+20
         else: 
             return 0
-
-    

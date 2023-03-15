@@ -8,7 +8,6 @@ def get_trade_hash(trade, trader_uid):
     id_str = str(trade["symbol"]) + str(trade["leverage"]) + str(trader_uid)
     return hashlib.sha256(id_str.encode()).hexdigest()
 
-
 def check_for_new_trade(stored_trades, trade_a):
     """
     Check if a trade is opened
@@ -24,7 +23,6 @@ def check_for_new_trade(stored_trades, trade_a):
                 reply_profit_trade_to_channel(trade_l[1], profit, trade_l[7], trade_l[9])
             break
     return new
-
 
 def check_for_closed_trade(api_trades, stored_trade):
     """

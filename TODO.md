@@ -1,5 +1,5 @@
 - [ ] Toutes les 10 secondes :
-    - [ ] Récupérer les trades avec le moins de requêtes possibles	
+    - [x] Récupérer les trades avec le moins de requêtes possibles	
     - [x] Regarder dans la base de données si un trade existe dedans mais pas dans la réponse : Trade supprimé
         - [x] Si oui : Supprimer le trade de la base de données
             - [x] Calculer le profit du trade 
@@ -10,7 +10,11 @@
             - [x] Insérer dans la base de données
     - [x] Si le timestamp du trade existe dans la base de données :
         - [x] Récupérer les informations du trade 
-        - [x]Mettre à jour le ROE
+        - [x] Mettre à jour le ROE
+        - [x] Vérifier si le roe est égal à +20% du dernier annoncé
+            - [x] Si oui : 
+                - [x] Mettre à jour le ROE dans la base de données
+                - [x] Envoyer un message sur le channel de notification
         - [ ] Si le trade a été mis a jour :
             - [ ] Mettre a jour le trade dans la base de données
             - [ ] Envoyer un message sur le channel de notification
