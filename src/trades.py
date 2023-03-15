@@ -1,6 +1,6 @@
 import hashlib
 import sql_functions
-from bot_actions import reply_profit_to_channel
+from bot_actions import reply_profit_trade_to_channel
 def get_trade_hash(trade, trader_uid):
     """
     Get a trade hash
