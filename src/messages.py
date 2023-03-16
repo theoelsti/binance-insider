@@ -14,11 +14,11 @@ class ProfitMessage:
 
         message += "🥇 **Top 3 Winning Trades:**\n"
         for i, trade in enumerate(self.winning_trades, start=1):
-            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) - Profit: *{trade['profit']}%* 💰\n"
+            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) : #{trade['pair']} - Profit: *{trade['profit']}%* 💰\n"
 
         message += "\n🛑 **Top 3 Losing Trades:**\n"
         for i, trade in enumerate(self.losing_trades, start=1):
-            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) - Loss: *{abs(trade['profit'])}%* 😢\n"
+            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) : #{trade['pair']} - Loss: *{abs(trade['profit'])}%* 😢\n"
 
         message += "\nWe're proud of our overall performance and excited to keep bringing you the best trading signals! Let's keep up the momentum! 🚀\n"
 

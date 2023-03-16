@@ -23,7 +23,7 @@ def generate_table_trades():
      losing_trades = []
      for trade in trades:
           if trade[5] > 0:
-               winning_trades.append({'message_id': trade[4], 'symbol': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
+               winning_trades.append({'message_id': trade[4], 'pair': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
           else:
-               losing_trades.append({'message_id': trade[4], 'symbol': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
+               losing_trades.append({'message_id': trade[4], 'pair': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
      return([winning_trades, losing_trades])
