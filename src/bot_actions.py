@@ -58,8 +58,7 @@ def reply_message_to_channel(message_text,message_id):
         reply_message_to_channel(message_text,message_id)
 
 def reply_closed_trade_to_channel(s_trade,trader_name):
-    message_text =  """📩Pair: #{} \n\n⚠️Close trade\n✅Profit: {}%\n⌛️Time: {}""".format(
-                        s_trade[1],
+    message_text =  """⚠️Close trade\n✅Profit: {}%\n⌛️Time: {}""".format(
                         round(float(s_trade[5])*100, 2),
                         format_timestamp(time()-s_trade[7])
                     )
@@ -100,8 +99,12 @@ def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
         reply_profit_trade_to_channel(pair,profit,timestamp,message_id)
 
 def send_message_to_public_channel(message_text):
-    requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
+    sent_message = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': PUBLIC_CHANNEL_NAME,
         'text': message_text,
         'parse_mode': 'Markdown'
     })
+    if sent_message.status_code == 200:
+        return sent_message.json()['result']['message_id']
+    else:
+        print("Error during message sending : "+sent_message.text)
