@@ -3,6 +3,7 @@ from trades import get_trade_hash
 import errors_printing as errors
 from time import time
 
+PROFIT_TRESHOLD = 25
 conn = mysql.connector.connect(
     host="193.70.43.232",
     user="prod_script",
@@ -133,11 +134,11 @@ def check_for_profit(s_trade):
         roe_percentage = int(roe * 100)
         if announced_trade == None:
             announced_trade = 0
-        if  int(roe_percentage) > int(announced_trade)+20:
+        if  int(roe_percentage) > int(announced_trade)+PROFIT_TRESHOLD:
             # Update the announced_trade value in the database.
-            cursor.execute("UPDATE trades SET announced_roe = {} WHERE id = '{}'".format(int(announced_trade)+20, s_trade[0]))
+            cursor.execute("UPDATE trades SET announced_roe = {} WHERE id = '{}'".format(int(announced_trade)+PROFIT_TRESHOLD, s_trade[0]))
             conn.commit()
-            return int(announced_trade)+20
+            return int(announced_trade)+PROFIT_TRESHOLD
         else: 
             return 0
         

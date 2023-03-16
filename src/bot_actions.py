@@ -64,6 +64,7 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
         'chat_id': CHANNEL_NAME,
         'reply_to_message_id': s_trade[9],
         'text': message_text
+        'disable_notification': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
