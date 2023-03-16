@@ -2,12 +2,13 @@ import requests
 from time import sleep,time
 import errors_printing as errors
 from misc_functions import format_timestamp
-BOT_API_KEY = '6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM'
-CHANNEL_NAME = '-1001835398982'
+BOT_API_KEY         = '6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM'
+CALLS_CHANNEL_NAME  = '-1001835398982'
+PUBLIC_CHANNEL_NAME = '-1001864787410'
 
 def send_message_to_channel(message_text):
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
-        'chat_id': CHANNEL_NAME,
+        'chat_id': CALLS_CHANNEL_NAME,
         'text': message_text
     })
     if response.status_code == 200:
@@ -28,7 +29,7 @@ def send_open_trade_message_to_channel(trade,trader_name):
                     )
 
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
-        'chat_id': CHANNEL_NAME,
+        'chat_id': CALLS_CHANNEL_NAME,
         'text': message_text
     })
     if response.status_code == 200:
@@ -41,7 +42,7 @@ def send_open_trade_message_to_channel(trade,trader_name):
 
 def reply_message_to_channel(message_text,message_id):
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
-        'chat_id': CHANNEL_NAME,
+        'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': message_id,
         'text': message_text
     })
@@ -61,7 +62,7 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
                     )
     
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
-        'chat_id': CHANNEL_NAME,
+        'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': s_trade[9],
         'text': message_text,
         'disable_notification': True
@@ -80,7 +81,7 @@ def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
                         format_timestamp(time()-timestamp)
                     )
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
-        'chat_id': CHANNEL_NAME,
+        'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': message_id,
         'text': message_text,
         'disable_notification': True

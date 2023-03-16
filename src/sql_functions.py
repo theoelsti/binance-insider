@@ -43,16 +43,18 @@ def count_total_trades():
     cursor.execute("SELECT COUNT(*) FROM trades")
     return cursor.fetchone()[0]
 
-def delete_trade(trade_id):
+def delete_trade(trade):
     """
     Delete trade from the database
     """
     conn.reconnect()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade_id))
+    cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade[0]))
     conn.commit()
     # Check if well deleted
-    cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade_id))
+    cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) ('{}','{}',{},{},{},{})'".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
+    # Insert the trade in the daily trades table
+    cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade[0]))
     return cursor.fetchone()[0] == 0
 
 def delete_trader(trader_uid):

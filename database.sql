@@ -39,10 +39,11 @@ CREATE TABLE subscription_tokens (
     claimed BOOLEAN DEFAULT FALSE
 );
 
-CREATE TABLE daily_closed_trades (
-    trade_id INT AUTO_INCREMENT PRIMARY KEY,
-    date DATE NOT NULL,
+CREATE TABLE daily_trades (
+    trade_id VARCHAR(64) AUTO_INCREMENT PRIMARY KEY,
+    symbol VARCHAR(20) NOT NULL,
+    opened BIGINT NOT NULL,
+    closed BIGINT NOT NULL,
     message_id INT NOT NULL,
-    timestamp BIGINT NOT NULL,
     profit FLOAT NOT NULL
 );
