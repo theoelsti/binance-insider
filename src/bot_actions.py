@@ -103,5 +103,5 @@ def send_message_to_public_channel(message_text):
     requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': PUBLIC_CHANNEL_NAME,
         'text': message_text,
-        'parseMode': 'Markdown'
+        'parse_mode': 'Markdown'
     })
