@@ -9,7 +9,8 @@ PUBLIC_CHANNEL_NAME = '-1001864787410'
 def send_message_to_channel(message_text):
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': CALLS_CHANNEL_NAME,
-        'text': message_text
+        'text': message_text,
+        'protect_content': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -30,7 +31,8 @@ def send_open_trade_message_to_channel(trade,trader_name):
 
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': CALLS_CHANNEL_NAME,
-        'text': message_text
+        'text': message_text,
+        'protect_content': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -44,7 +46,8 @@ def reply_message_to_channel(message_text,message_id):
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': message_id,
-        'text': message_text
+        'text': message_text,
+        'protect_content': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -65,7 +68,8 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
         'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': s_trade[9],
         'text': message_text,
-        'disable_notification': True
+        'disable_notification': True,
+        'protect_content': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -84,7 +88,8 @@ def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
         'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': message_id,
         'text': message_text,
-        'disable_notification': True
+        'disable_notification': True,
+        'protect_content': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -93,3 +98,10 @@ def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
         print("Retry after "+str(response.json()['parameters']['retry_after'])+" seconds")
         sleep(response.json()['parameters']['retry_after'])
         reply_profit_trade_to_channel(pair,profit,timestamp,message_id)
+
+def send_message_to_public_channel(message_text):
+    requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
+        'chat_id': PUBLIC_CHANNEL_NAME,
+        'text': message_text,
+        'parseMode': 'Markdown'
+    })

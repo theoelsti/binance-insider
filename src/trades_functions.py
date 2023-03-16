@@ -13,3 +13,16 @@ def check_closed_trades(trades, stored_trades,trader_name,trader_id):
           if trades_functions.check_for_new_trade(stored_trades, trade):
             msg_id = bot.send_open_trade_message_to_channel(trade, trader_name)
             sql_functions.insert_trade(trade, trader_id, msg_id)
+
+def generate_table_trades():
+     trades = sql_functions.get_closed_trade()
+     # Format : trade_id, symbol, opened, closed, message_id, profit
+
+     # Generate two [] tables, named winning_trades and losing_trades, with indexes : message_id, symbol, opened, closed, profit
+     winning_trades = []
+     losing_trades = []
+     for trade in trades:
+          if trade[5] > 0:
+               winning_trades.append([trade[3], trade[1], trade[4], trade[5]])
+          else:
+               losing_trades.append([trade[3], trade[1], trade[4], trade[5]])

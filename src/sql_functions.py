@@ -52,6 +52,7 @@ def delete_trade(trade):
     cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade[0]))
     conn.commit()
     # Check if well deleted
+    print("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) ('{}','{}',{},{},{},{})'".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
     cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) ('{}','{}',{},{},{},{})'".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
     # Insert the trade in the daily trades table
     cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade[0]))
@@ -154,10 +155,20 @@ def insert_token(token,type):
     conn.commit()
 
 def get_tokens(type):
+
     """
     Get all tokens from the database
     """
     conn.reconnect()
     cursor = conn.cursor()
     cursor.execute("SELECT token FROM subscription_tokens WHERE subscription_type = '{}'".format(type))
+    return cursor.fetchall()
+
+def get_closed_trade():
+    """
+    Get all closed trades from the database
+    """
+    conn.reconnect()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM daily_trades")
     return cursor.fetchall()

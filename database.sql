@@ -40,7 +40,7 @@ CREATE TABLE subscription_tokens (
 );
 
 CREATE TABLE daily_trades (
-    trade_id VARCHAR(64) AUTO_INCREMENT PRIMARY KEY,
+    trade_id VARCHAR(64) PRIMARY KEY,
     symbol VARCHAR(20) NOT NULL,
     opened BIGINT NOT NULL,
     closed BIGINT NOT NULL,

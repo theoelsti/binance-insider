@@ -1,4 +1,4 @@
-- [ ] Toutes les 10 secondes :
+- [ ] Toutes les 25 secondes :
     - [x] Récupérer les trades avec le moins de requêtes possibles	
     - [x] Regarder dans la base de données si un trade existe dedans mais pas dans la réponse : Trade supprimé
         - [x] Si oui : Supprimer le trade de la base de données
@@ -24,16 +24,17 @@
         - [ ] Si une offre séléctionnée : 
             - [ ] Récupérer les informations de l'offre (prix)
             - [ ] Envoyer le lien vers la page
-- [] Si le client envoie une demande de Join 
- - [] demander le token 
+
+- [ ] Si le client envoie une demande de Join 
+ - [ ] demander le token 
    - Vérifier dans la base de données avec une requête préparée 
-  - Si oui envoyer le lien d'invitation 
-  - Si non le tej 
+  - [ ]Si oui envoyer le lien d'invitation 
+  - [ ]Si non le tej 
 - Tous les jours à 21h
- - [] Récupérer les trades clôtures du jour
-  - [] Mettre en forme un message
-   - [] Top et Flop
-   - [] Roe Cumule
-   - [] Bénéfices fais si 25 euros investis avec 2% à chaque trade
+ - [ ] Récupérer les trades clôtures du jour
+  - [ ] Mettre en forme un message
+   - [ ] Top et Flop
+   - [ ] Roe Cumule
+   - [ ] Bénéfices fais si 25 euros investis avec 2% à chaque trade
    - Lien vers le bot et la boutique
-- [] Reboot tous les jours à 3h00
+- [ ] Reboot tous les jours à 3h00
