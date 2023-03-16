@@ -47,7 +47,8 @@ def reply_message_to_channel(message_text,message_id):
         'chat_id': CALLS_CHANNEL_NAME,
         'reply_to_message_id': message_id,
         'text': message_text,
-        'protect_content': True
+        'protect_content': True,
+        'allow_sending_without_reply': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -68,7 +69,8 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
         'reply_to_message_id': s_trade[9],
         'text': message_text,
         'disable_notification': True,
-        'protect_content': True
+        'protect_content': True,
+        'allow_sending_without_reply': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']
@@ -102,7 +104,8 @@ def send_message_to_public_channel(message_text):
     sent_message = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': PUBLIC_CHANNEL_NAME,
         'text': message_text,
-        'parse_mode': 'Markdown'
+        'parse_mode': 'Markdown',
+        'disable_web_page_preview ': 1
     })
     if sent_message.status_code == 200:
         return sent_message.json()['result']['message_id']

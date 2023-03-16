@@ -204,6 +204,20 @@ def get_tokens(type):
             raise ValueError("No tokens found for type {}".format(type))
         return tokens
 
+def get_sum_profit():
+    """
+    Get sum of all profits from the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("""
+        SELECT 
+            SUM(CASE WHEN profit > 0 THEN profit ELSE 0 END) as total_positive_profit,
+            SUM(CASE WHEN profit < 0 THEN profit ELSE 0 END) as total_losses
+        FROM daily_trades;
+        """)
+        return cursor.fetchone()
+
 def get_closed_trade():
     """
     Get all closed trades from the database
