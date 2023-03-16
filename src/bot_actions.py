@@ -83,7 +83,8 @@ def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': CHANNEL_NAME,
         'reply_to_message_id': message_id,
-        'text': message_text
+        'text': message_text,
+        'disable_notification': True
     })
     if response.status_code == 200:
         return response.json()['result']['message_id']

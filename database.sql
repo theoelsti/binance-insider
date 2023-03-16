@@ -38,3 +38,12 @@ CREATE TABLE subscription_tokens (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     claimed BOOLEAN DEFAULT FALSE
 );
+
+CREATE TABLE daily_closed_trades (
+    trade_id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATE NOT NULL,
+    message_id INT NOT NULL,
+    timestamp BIGINT NOT NULL,
+    profit FLOAT NOT NULL
+);
+
