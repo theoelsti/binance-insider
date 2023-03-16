@@ -46,4 +46,3 @@ CREATE TABLE daily_closed_trades (
     timestamp BIGINT NOT NULL,
     profit FLOAT NOT NULL
 );
-

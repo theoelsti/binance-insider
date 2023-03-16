@@ -75,8 +75,7 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
         reply_closed_trade_to_channel(s_trade,trader_name)
 
 def reply_profit_trade_to_channel(pair,profit,timestamp,message_id):
-    message_text =  """📩Pair: #{} \n\n✅Profit: {}%\n⌛️Time: {}""".format(
-                        pair,
+    message_text =  """✅Profit: {}%\n⌛️Time: {}""".format(
                         profit,
                         format_timestamp(time()-timestamp)
                     )
