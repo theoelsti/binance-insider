@@ -2,6 +2,6 @@
 
 while true
 do
-    python3 your_script.py
+    python3 src/main.py
     sleep $(($(date -d "20:00 tomorrow" +%s) - $(date +%s)))
 done
