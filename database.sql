@@ -47,3 +47,12 @@ CREATE TABLE daily_trades (
     message_id INT NOT NULL,
     profit FLOAT NOT NULL
 );
+
+CREATE TABLE daily_summary (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    date DATE,
+    profit FLOAT NOT NULL,
+    total_trades INT NOT NULL,
+    winning_trades INT NOT NULL,
+    losing_trades INT NOT NULL
+);

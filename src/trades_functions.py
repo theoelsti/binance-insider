@@ -26,4 +26,7 @@ def generate_table_trades():
                winning_trades.append({'message_id': trade[4], 'pair': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
           else:
                losing_trades.append({'message_id': trade[4], 'pair': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
+     winning_trades = sorted(winning_trades, key=lambda k: k['profit'], reverse=True)
+     losing_trades = sorted(losing_trades, key=lambda k: k['profit'])
+     
      return([winning_trades, losing_trades])

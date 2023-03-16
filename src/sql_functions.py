@@ -216,7 +216,38 @@ def get_sum_profit():
             SUM(CASE WHEN profit < 0 THEN profit ELSE 0 END) as total_losses
         FROM daily_trades;
         """)
+        print(cursor.fetchone())
         return cursor.fetchone()
+
+def delete_daily_profit():
+    """
+    Delete all daily profits from the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("TRUNCATE TABLE daily_trades")
+        conn.commit()
+
+def insert_daily_profit(winning,loosing,profit):
+    """
+    Insert daily profit into the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute(f"INSERT INTO daily_summary (profit,total_trades,winning_trades,losing_trades,date) VALUES ((SELECT SUM(profit) FROM daily_trades),{int(winning)+int(loosing)},{int(winning)},{int(loosing)},(SELECT CURRENT_DATE));")
+        conn.commit()
+
+def get_winning_losing_trades():
+    """
+    Get all winning and losing trades from the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("SELECT COUNT(*) FROM daily_trades WHERE profit > 0")
+        winning_trades = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) FROM daily_trades WHERE profit < 0")
+        losing_trades = cursor.fetchall()
+        return winning_trades, losing_trades
 
 def get_closed_trade():
     """
