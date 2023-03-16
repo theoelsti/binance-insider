@@ -35,4 +35,5 @@
    - [] Top et Flop
    - [] Roe Cumule
    - [] Bénéfices fais si 25 euros investis avec 2% à chaque trade
-   - Lien vers le bot et la boutique 
+   - Lien vers le bot et la boutique
+- [] Reboot tous les jours à 3h00
