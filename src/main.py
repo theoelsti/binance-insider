@@ -19,23 +19,24 @@ def main():
 
 if __name__ == "__main__":
      try:
+          working = True
           app = init_app()
           top10 =  binance.get_top_traders(10)
           for trader_id,trader_name in top10:
                sql_functions.insert_trader(trader_id,trader_name)
           last_print_time = time()
           script_startup = datetime.datetime.now()
-          while True:
+          while working:
                closed_trades = get_closed_trade()
                if script_startup.hour >= 21 and script_startup.minute < 2 and closed_trades != []:
-                   print("C'est l'heure de la fermeture")
                    send_daily_message()
-                   break
+                   working = False
                current_time = time()
                if current_time - last_print_time >= 60:
                     last_print_time = current_time
                     print("[i] Bot is running. Total trades stored : " + str(sql_functions.count_total_trades()))
                main()
                sleep(26)
+          print("Exiting")
      except KeyboardInterrupt:
           print("Exiting")
