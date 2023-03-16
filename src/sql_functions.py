@@ -216,10 +216,9 @@ def get_sum_profit():
             SUM(CASE WHEN profit < 0 THEN profit ELSE 0 END) as total_losses
         FROM daily_trades;
         """)
-        print(cursor.fetchone())
         return cursor.fetchone()
 
-def delete_daily_profit():
+def delete_daily_trades():
     """
     Delete all daily profits from the database
     """
@@ -234,7 +233,8 @@ def insert_daily_profit(winning,loosing,profit):
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute(f"INSERT INTO daily_summary (profit,total_trades,winning_trades,losing_trades,date) VALUES ((SELECT SUM(profit) FROM daily_trades),{int(winning)+int(loosing)},{int(winning)},{int(loosing)},(SELECT CURRENT_DATE));")
+        cursor.execute(f"INSERT INTO daily_summary (profit, total_trades, winning_trades, losing_trades, date) VALUES ({profit}, {int(winning) + int(loosing)}, {int(winning)}, {int(loosing)}, CURRENT_DATE);"
+)
         conn.commit()
 
 def get_winning_losing_trades():
@@ -247,7 +247,19 @@ def get_winning_losing_trades():
         winning_trades = cursor.fetchall()
         cursor.execute("SELECT * FROM daily_trades WHERE profit < 0 ORDER BY profit ASC LIMIT 3;")
         losing_trades = cursor.fetchall()
-        return winning_trades, losing_trades
+        return [winning_trades,losing_trades]
+
+def get_count_winning_loosing_trades():
+    """
+    Get count of all winning and losing trades from the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("SELECT COUNT(*) FROM daily_trades WHERE profit > 0;")
+        winning_trades = cursor.fetchone()
+        cursor.execute("SELECT COUNT(*) FROM daily_trades WHERE profit < 0;")
+        losing_trades = cursor.fetchone()
+        return [winning_trades,losing_trades]
 
 def get_closed_trade():
     """
@@ -255,5 +267,5 @@ def get_closed_trade():
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT * FROM daily_trades")
+        cursor.execute("SELECT * FROM daily_trades;")
         return cursor.fetchall()

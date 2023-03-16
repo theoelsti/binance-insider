@@ -5,10 +5,10 @@ import trades as trades_functions
 import bot_actions as bot
 from time import sleep, time
 from bot_user_app import init_app
-import errors_printing as errors
 import trades_functions as checks
 import datetime
 from messages import send_daily_message
+from sql_functions import get_closed_trade
 top10 = []
 def main():
     for trader_id, trader_name in top10:
@@ -26,9 +26,8 @@ if __name__ == "__main__":
           last_print_time = time()
           script_startup = datetime.datetime.now()
           while True:
-               print(script_startup.hour)
-               if script_startup.hour >= 20:
-                   print("[i] Script is shutting down. Total trades stored : " + str(sql_functions.count_total_trades()))
+               closed_trades = get_closed_trade()
+               if script_startup.hour >= 21 and closed_trades != []:
                    send_daily_message()
                    break
                current_time = time()
