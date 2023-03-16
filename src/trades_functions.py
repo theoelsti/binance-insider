@@ -18,11 +18,12 @@ def generate_table_trades():
      trades = sql_functions.get_closed_trade()
      # Format : trade_id, symbol, opened, closed, message_id, profit
 
-     # Generate two [] tables, named winning_trades and losing_trades, with indexes : message_id, symbol, opened, closed, profit
+     # Generate two {} arrays, named winning_trades and losing_trades, with indexes : message_id, symbol, opened, closed, profit
      winning_trades = []
      losing_trades = []
      for trade in trades:
           if trade[5] > 0:
-               winning_trades.append([trade[3], trade[1], trade[4], trade[5]])
+               winning_trades.append({'message_id': trade[4], 'symbol': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
           else:
-               losing_trades.append([trade[3], trade[1], trade[4], trade[5]])
+               losing_trades.append({'message_id': trade[4], 'symbol': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': trade[5]})
+     return([winning_trades, losing_trades])

@@ -1,4 +1,5 @@
-import sql_functions
+from trades_functions import generate_table_trades
+from bot_actions import send_message_to_public_channel
 PUBLIC_CHANNEL_NAME = '1864787410'
 class ProfitMessage:
     def __init__(self, winning_trades, losing_trades):
@@ -6,6 +7,9 @@ class ProfitMessage:
         self.losing_trades = losing_trades
 
     def generate_message(self):
+        print(self.winning_trades)
+        print(self.losing_trades)
+
         message = "🚀 **Daily Profit Announcement!** 🚀\n\n"
 
         message += "Hey everyone! We've had another fantastic trading day! Here's a quick summary of our top trades:\n\n"
@@ -24,21 +28,13 @@ class ProfitMessage:
 
         return message
 
-# Example usage:
-winning_trades = [
-    {"id": 1, "profit": 120},
-    {"id": 2, "profit": 80},
-    {"id": 3, "profit": 60},
-]
+# Example usage
 
-losing_trades = [
-    {"id": 4, "profit": -30},
-    {"id": 5, "profit": -20},
-    {"id": 6, "profit": -10},
-]
+trades = generate_table_trades()
+winning_trades = trades[0]
+losing_trades = trades[1]
 
-
-
+print(winning_trades)
 profit_message = ProfitMessage(winning_trades, losing_trades)
 message = profit_message.generate_message()
-print(message)
+send_message_to_public_channel(message)
