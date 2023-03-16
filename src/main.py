@@ -26,6 +26,7 @@ if __name__ == "__main__":
           last_print_time = time()
           script_startup = datetime.datetime.now()
           while True:
+               print(script_startup.hour)
                if script_startup.hour >= 20:
                    print("[i] Script is shutting down. Total trades stored : " + str(sql_functions.count_total_trades()))
                    send_daily_message()
