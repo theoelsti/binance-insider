@@ -243,9 +243,9 @@ def get_winning_losing_trades():
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT COUNT(*) FROM daily_trades WHERE profit > 0")
+        cursor.execute("SELECT * FROM daily_trades WHERE profit > 0 ORDER BY profit DESC LIMIT 3;")
         winning_trades = cursor.fetchall()
-        cursor.execute("SELECT COUNT(*) FROM daily_trades WHERE profit < 0")
+        cursor.execute("SELECT * FROM daily_trades WHERE profit < 0 ORDER BY profit ASC LIMIT 3;")
         losing_trades = cursor.fetchall()
         return winning_trades, losing_trades
 
