@@ -63,7 +63,7 @@ def reply_closed_trade_to_channel(s_trade,trader_name):
     response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': CHANNEL_NAME,
         'reply_to_message_id': s_trade[9],
-        'text': message_text
+        'text': message_text,
         'disable_notification': True
     })
     if response.status_code == 200:
