@@ -28,7 +28,9 @@ if __name__ == "__main__":
           while True:
                closed_trades = get_closed_trade()
                if script_startup.hour >= 21 and closed_trades != []:
+                   print("C'est l'heure de la fermeture")
                    send_daily_message()
+
                    break
                current_time = time()
                if current_time - last_print_time >= 60:

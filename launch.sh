@@ -3,5 +3,6 @@
 while true
 do
     python3 src/main.py
-    sleep $(($(date -d "21:01" +%s) - $(date +%s)))
+    echo "Script killed"
+    sleep $(($(date -d "21:05" +%s) - $(date +%s)))
 done
