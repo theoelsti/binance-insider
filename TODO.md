@@ -14,7 +14,7 @@
         - [x] Vérifier si le roe est égal à +20% du dernier annoncé
             - [x] Si oui : 
                 - [x] Mettre à jour le ROE dans la base de données
-                - [x] Envoyer un message sur le channel de notification
+                - [ ] Envoyer un message sur le channel de notification avec `disable_notification`
         - [ ] Si le trade a été mis a jour :
             - [ ] Mettre a jour le trade dans la base de données
             - [ ] Envoyer un message sur le channel de notification
