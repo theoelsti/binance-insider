@@ -4,7 +4,7 @@
         - [x] Si oui : Supprimer le trade de la base de données
             - [x] Calculer le profit du trade 
             - [x] Envoyer un message sur le channel de notification
-            - Calculer le temps durant lequel le trade a existe
+            - [x] Calculer le temps durant lequel le trade a existe
     - [x] Si le timestamp du trade n'existe pas dans la base de données :
         - [x] Récupérer les informations du trade 
             - [x] Insérer dans la base de données
