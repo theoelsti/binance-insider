@@ -25,7 +25,7 @@ def get_trader_username(id):
     Fetch the trader username from the database
     """
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT name FROM traders WHERE uid = '{}'".format(id))
         result = cursor.fetchone()
         if result:
@@ -39,7 +39,7 @@ def insert_trader(id, name):
     """
     try:
         with get_connection() as conn:
-            cursor = conn.cursor()
+            cursor = conn.cursor(buffered=True)
             cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)", (id, name))
             conn.commit()
     except Exception as e:
@@ -51,7 +51,7 @@ def count_total_trades():
     """
     try:
         with get_connection() as conn:
-            cursor = conn.cursor()
+            cursor = conn.cursor(buffered=True)
             cursor.execute("SELECT COUNT(*) FROM trades")
             return cursor.fetchone()[0]
     except Exception as e:
@@ -63,7 +63,7 @@ def delete_trade(trade):
     """
     try:
         with get_connection() as conn:
-            cursor = conn.cursor()
+            cursor = conn.cursor(buffered=True)
             cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade[0]))
             conn.commit()
             cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{}','{}',{},{},{},{});".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
@@ -78,7 +78,7 @@ def delete_trader(trader_uid):
     Delete trader from the database
     """
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         cursor.execute("DELETE FROM trades WHERE trader_uid = '{}'".format(trader_uid))
         cursor.execute("DELETE FROM traders WHERE uid = '{}'".format(trader_uid))
         conn.commit()
@@ -108,7 +108,7 @@ def insert_trade(trade, trader_uid, msg_id):
     )
 
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         try:
             cursor.execute(query)
             conn.commit()
@@ -123,7 +123,7 @@ def get_trades(trader_uid):
     query = "SELECT * FROM trades WHERE trader_uid = '{}'".format(trader_uid)
     try:
         with get_connection() as conn:
-            cursor = conn.cursor()
+            cursor = conn.cursor(buffered=True)
             cursor.execute(query)
             return cursor.fetchall()
     except Exception as e:
@@ -136,7 +136,7 @@ def update_trade(trade, trade_id):
     query = "UPDATE trades SET mark_price= {}, pnl = {}, roe = {}, amount = {} WHERE id = '{}';".format(trade["markPrice"], trade["pnl"], trade["roe"], trade["amount"], trade_id)
 
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         try:
             cursor.execute(query)
             conn.commit()
@@ -150,7 +150,7 @@ def check_for_profit(s_trade):
     """
     try:
         with get_connection() as conn:
-            cursor = conn.cursor()
+            cursor = conn.cursor(buffered=True)
             cursor.execute("SELECT roe, announced_roe FROM trades WHERE id = '{}'".format(s_trade[0]))
 
             result = cursor.fetchone()
@@ -181,7 +181,7 @@ def insert_token(token, type):
     Insert token into the database
     """
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         try:
             cursor.execute(
                 "INSERT INTO subscription_tokens (token, subscription_type) VALUES ('{}', '{}')".format(token, type)
@@ -195,7 +195,7 @@ def get_tokens(type):
     Get all tokens from the database
     """
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT token FROM subscription_tokens WHERE subscription_type = '{}'".format(type))
         conn.commit()
 
@@ -209,6 +209,6 @@ def get_closed_trade():
     Get all closed trades from the database
     """
     with get_connection() as conn:
-        cursor = conn.cursor()
+        cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM daily_trades")
         return cursor.fetchall()
