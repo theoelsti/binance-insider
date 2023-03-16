@@ -4,5 +4,5 @@ while true
 do
     python3 src/main.py
     print
-    sleep $(($(date -d "20:00" +%s) - $(date +%s)))
+    sleep $(($(date -d "20:01" +%s) - $(date +%s)))
 done
