@@ -53,7 +53,7 @@ def delete_trade(trade):
     conn.commit()
     # Check if well deleted
     print("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{}','{}',{},{},{},{});".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
-    cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{}','{}',{},{},{},{}),".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
+    cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{}','{}',{},{},{},{});".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
     # Insert the trade in the daily trades table
     cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade[0]))
     return cursor.fetchone()[0] == 0
