@@ -23,6 +23,7 @@ if __name__ == "__main__":
      try:
           working = True
           top10 =  get_traders()
+          print(top10)
           last_print_time = time()
           script_startup = datetime.datetime.now()
           while working:

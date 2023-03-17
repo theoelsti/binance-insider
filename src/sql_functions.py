@@ -44,6 +44,7 @@ def get_traders():
         return_tab = []
         for (uid, name) in cursor:
             return_tab.append([uid, name])
+        return return_tab
 
 def insert_trader_with_uid(id):
     """
