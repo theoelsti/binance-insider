@@ -3,7 +3,7 @@ from trades import get_trade_hash
 import errors_printing as errors
 from time import time
 from contextlib import contextmanager
-from api.binance import get_trader_username
+from api.binance import get_trader_username_api
 PROFIT_TRESHOLD = 25
 
 @contextmanager
@@ -49,7 +49,7 @@ def insert_trader_with_uid(id):
     """
     Insert a trader after fetching his name from the API
     """
-    name = get_trader_username(id)
+    name = get_trader_username_api(id)
     insert_trader(id, name)
 
 def insert_trader(id, name):

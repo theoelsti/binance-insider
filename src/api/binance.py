@@ -69,7 +69,7 @@ def get_trader_infos(trader_uid):
     sql.insert(query)
     return response
 
-def get_trader_username(id):
+def get_trader_username_api(id):
     """
     Fetch the trader username from the api
     """
