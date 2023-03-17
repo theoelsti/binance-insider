@@ -1,6 +1,6 @@
-import sql_functions
-import bot_actions as bot
-import trades as trades_functions
+import database.sql_functions as sql_functions
+import bot.bot_actions as bot
+import trades.trades as trades_functions
 from math import trunc
 def check_closed_trades(trades, stored_trades,trader_name):
      for s_trade in stored_trades:

@@ -1,7 +1,7 @@
 import secrets
 import string
 from time import time
-from sql_functions import insert_token,get_tokens
+from database.sql_functions import insert_token,get_tokens
 TYPES =  ["one_month","three_months", "six_months", "one_year"] 
 
 def generate_token(length=32):

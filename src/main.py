@@ -1,14 +1,14 @@
 
-import sql_functions
+import database.sql_functions as sql_functions
 import api.binance as binance
-import trades as trades_functions
-import bot_actions as bot
+import trades.trades as trades_functions
+import bot.bot_actions as bot
 from time import sleep, time
-from bot_user_app import init_app
-import trades_functions as checks
+from bot.bot_user_app import init_app
+import trades.trades_functions as checks
 import datetime
-from messages import send_daily_message
-from sql_functions import get_closed_trade,get_traders
+from messages.messages import send_daily_message
+from database.sql_functions import get_closed_trade,get_traders
 top10 = []
 
 def main():

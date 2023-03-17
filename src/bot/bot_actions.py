@@ -1,7 +1,7 @@
 import requests
 from time import sleep,time
 import errors_printing as errors
-from misc_functions import format_timestamp
+from utils.misc_functions import format_timestamp
 BOT_API_KEY         = '6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM'
 CALLS_CHANNEL_NAME  = '-1001835398982'
 PUBLIC_CHANNEL_NAME = '-1001864787410'

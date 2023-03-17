@@ -1,5 +1,5 @@
 import mysql.connector
-from trades import get_trade_hash
+from trades.trades import get_trade_hash
 import errors_printing as errors
 from time import time
 from contextlib import contextmanager

@@ -1,7 +1,7 @@
 import requests
 import json
 from time import sleep
-import sql_functions as sql
+import database.sql_functions as sql
 import errors_printing as errors
 HEADERS = {
         'Content-Type': 'application/json'
