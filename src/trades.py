@@ -6,7 +6,8 @@ def get_trade_hash(trade, trader_uid):
     """
     Get a trade hash
     """
-    id_str = str(trade["symbol"]) + str(trade["leverage"]) + str(trader_uid)
+    direction = 1 if trade["amount"] > 0 else 0
+    id_str = str(trade["symbol"]) + str(trade["leverage"]) + str(trader_uid) + str(direction)
     return hashlib.sha256(id_str.encode()).hexdigest()
 
 def check_for_new_trade(stored_trades, trade_a):
@@ -17,15 +18,15 @@ def check_for_new_trade(stored_trades, trade_a):
 
     for trade_l in stored_trades:
         id_hash = get_trade_hash(trade_a, trade_l[11])
+        print("Verifiying trade " + id_hash + "")
         if trade_l[0] == id_hash:
             new = False
             profit = sql_functions.check_for_profit(trade_l)
             if profit:
                 reply_profit_trade_to_channel(trade_l[1], profit, trade_l[7], trade_l[9])
             break
-        # If the trade is new but the timestamp is older than 5 minutes (trade timestamp minus now), ignore it
-        if trade_a["timestamp"] < (time() - 300):
-            new = False
+    if trade_a["updateTimeStamp"] < (int(time() * 1000) - 300000):
+        new = False
     return new
 
 def check_for_closed_trade(api_trades, stored_trade):

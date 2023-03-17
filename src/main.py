@@ -15,15 +15,14 @@ def main():
     for trader_id, trader_name in top10:
      trades = binance.get_trader_trades(trader_id)
      stored_trades = sql_functions.get_trades(trader_id) 
-     checks.check_closed_trades(trades, stored_trades, trader_name)
      checks.check_opened_trades(trades, stored_trades, trader_name,trader_id)
+     checks.check_closed_trades(trades, stored_trades, trader_name)
 
 
 if __name__ == "__main__":
      try:
           working = True
           top10 =  get_traders()
-          print(top10)
           last_print_time = time()
           script_startup = datetime.datetime.now()
           while working:
