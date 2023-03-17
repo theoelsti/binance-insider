@@ -25,9 +25,9 @@ class ProfitMessage:
         for i, trade in enumerate(self.losing_trades, start=1):
             message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) : #{trade['pair']} - Loss: _{round(trade['profit']*100,2)}%_ 😢\n"
         message += "\n📈 *Overall Performance:*\n"
-        message += f"Total Profit: _{round(self.profit,3)*100}%_ 💰\n"
-        message += f"Total Losses: _{round(self.losses,3)*100}%_ 😢\n"
-        message += f"Net Profit: *{round(self.profit + self.losses,3)*100}%* 🚀\n"
+        message += f"Total Profit: _{round(self.profit*100,3)}%_ 💰\n"
+        message += f"Total Losses: _{round(self.losses*100,3)}%_ 😢\n"
+        message += f"Net Profit: *{round((self.profit + self.losses)*100,3)}%* 🚀\n"
 
 
         message += "\nWe're proud of our overall performance and excited to keep bringing you the best trading signals! Let's keep up the momentum 🚀 \n"

@@ -3,7 +3,7 @@ from trades import get_trade_hash
 import errors_printing as errors
 from time import time
 from contextlib import contextmanager
-
+from api.binance import get_trader_username
 PROFIT_TRESHOLD = 25
 
 @contextmanager
@@ -32,6 +32,25 @@ def get_trader_username(id):
             return result[0]
         else:
             return None
+
+def get_traders():
+    """
+    Fetch all traders from the database, in the format : 
+    [[uid, name], [uid, name], ...]
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("SELECT uid,name FROM traders")
+        return_tab = []
+        for (uid, name) in cursor:
+            return_tab.append([uid, name])
+
+def insert_trader_with_uid(id):
+    """
+    Insert a trader after fetching his name from the API
+    """
+    name = get_trader_username(id)
+    insert_trader(id, name)
 
 def insert_trader(id, name):
     """

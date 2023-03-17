@@ -68,3 +68,17 @@ def get_trader_infos(trader_uid):
     query = "INSERT INTO traders (uid,name) VALUES (%s,%s)"%(response['encryptedUid'],response['nickName'])
     sql.insert(query)
     return response
+
+def get_trader_username(id):
+    """
+    Fetch the trader username from the api
+    """
+    url = "https://www.binance.com/bapi/futures/v2/public/future/leaderboard/getOtherLeaderboardBaseInfo"
+    payload = {
+        "encryptedUid": id
+    }
+    headers = HEADERS
+    response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+    response = response.json()['data']
+
+    return response['nickName']

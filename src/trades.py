@@ -1,6 +1,7 @@
 import hashlib
 import sql_functions
 from bot_actions import reply_profit_trade_to_channel
+from time import time
 def get_trade_hash(trade, trader_uid):
     """
     Get a trade hash
@@ -22,6 +23,9 @@ def check_for_new_trade(stored_trades, trade_a):
             if profit:
                 reply_profit_trade_to_channel(trade_l[1], profit, trade_l[7], trade_l[9])
             break
+        # If the trade is new but the timestamp is older than 5 minutes (trade timestamp minus now), ignore it
+        elif trade_a["timestamp"] < (time() - 300):
+            new = False
     return new
 
 def check_for_closed_trade(api_trades, stored_trade):
