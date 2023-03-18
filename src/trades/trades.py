@@ -46,7 +46,7 @@ def is_trade_new(stored_trades, trade_api):
         is_new = False
 
     if percentage_difference > 5:
-        if not is_new:
+        if is_new:
             print("Trade is too far from entry price, not adding to database.")
             # print trade details
             print(trade_api)
