@@ -3,7 +3,6 @@ from api.telegram import send_telegram_message
 from database.db_functions import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_loosing_trades
 from datetime import datetime
 from config import PUBLIC_CHANNEL_NAME as public_channel
-
 PUBLIC_CHANNEL_NAME = '1864787410'
 CALLS_CHANNEL_NAME  = '1835398982'
 class ProfitMessage:
@@ -58,33 +57,3 @@ def send_daily_message():
     insert_daily_profit(daily_count[0][0],daily_count[1][0],total_profit)
 
     delete_daily_trades()
-
-message = """
-🚀 **18-03-2023 - Daily Profit Announcement!** 🚀
-
-Hey everyone! We've had another fantastic trading day! Here's a quick summary of our top trades:
-
-🥇 *Top 3 Winning Trades:*
-[Trade n°1](https://t.me/c/1835398982/1586) : #BTCUSDT - Profit: _272.9%_ 💰
-[Trade n°2](https://t.me/c/1835398982/2030) : #BNBUSDT - Profit: _157.1%_ 💰
-[Trade n°3](https://t.me/c/1835398982/1811) : #ATOMUSDT - Profit: _22.6%_ 💰
-
-🛑 *Top 3 Losing Trades:*
-[Trade n°1](https://t.me/c/1835398982/1984) : #ETHUSDT - Loss: _-236.0%_ 😢
-[Trade n°2](https://t.me/c/1835398982/909) : #BTCUSDT - Loss: _-131.9%_ 😢
-[Trade n°3](https://t.me/c/1835398982/1812) : #BTCUSDT - Loss: _-59.7%_ 😢
-
-📈 *Overall Performance:*
-Total Profit: _675.064%_ 💰
-Total Losses: _-525.117%_ 😢
-Net Profit: *149.947%* 🚀
-
-We're proud of our overall performance and excited to keep bringing you the best trading signals! Let's keep up the momentum 🚀 
-
-Remember to manage your risks and follow our trading guidelines.
-
-To join us and get access to our exclusive trading signals, just contact our [bot](https://t.me/BinanceInsider_bot) or visit our [online shop](https://binanceinsider.mysellix.io) and order your ticket!
-
-Sign up on [MEXC](https://www.mexc.com/register?inviteCode=1auka), our recommended exchange, and enjoy the lowest trading fees in the market! 💰
-"""
-send_telegram_message(public_channel,message,protect_content=False,parse_mode="Markdown")
