@@ -16,7 +16,7 @@ def check_for_new_trade(stored_trades, trade_a):
     """
     new = True
 
-    difference = abs(trade_a['entryPrice'] - trade_a['marketPrice'])
+    difference = abs(trade_a['entryPrice'] - trade_a['markPrice'])
     percentage_difference = (difference / trade_a['entryPrice']) * 100
 
     for trade_l in stored_trades:
