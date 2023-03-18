@@ -1,20 +1,20 @@
 
-import database.sql_functions as sql_functions
-import api.binance as binance
+import database.db_functions as db_functions
+import api.binance_api as binance_api
 import trades.trades as trades_functions
-import bot.bot_actions as bot
+import api.telegram as bot
 from time import sleep, time
-from bot.bot_user_app import init_app
+from bot.user_app import init_app
 import trades.trades_functions as checks
 import datetime
-from messages.messages import send_daily_message
-from database.sql_functions import get_closed_trade,get_traders
+from messages.profit_message import send_daily_message
+from database.db_functions import get_closed_trade,get_traders
 top10 = []
 
 def main():
     for trader_id, trader_name in top10:
-     trades = binance.get_trader_trades(trader_id)
-     stored_trades = sql_functions.get_trades(trader_id) 
+     trades = binance_api.fetch_trader_trades(trader_id)
+     stored_trades = db_functions.get_trades(trader_id) 
      checks.check_opened_trades(trades, stored_trades, trader_name,trader_id)
      checks.check_closed_trades(trades, stored_trades, trader_name)
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
                current_time = time()
                if current_time - last_print_time >= 60:
                     last_print_time = current_time
-                    print("[i] Bot is running. Total trades stored : " + str(sql_functions.count_total_trades()))
+                    print("[i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
                main()
                sleep(15)
           print("Exiting")

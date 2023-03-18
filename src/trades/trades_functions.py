@@ -1,24 +1,33 @@
-import database.sql_functions as sql_functions
-import bot.bot_actions as bot
+import database.db_functions as db_functions
+import api.telegram as bot
 import trades.trades as trades_functions
-from math import trunc
-def check_closed_trades(trades, stored_trades,trader_name):
-     for s_trade in stored_trades:
-          if trades_functions.check_for_closed_trade(trades, s_trade):
-               sql_functions.delete_trade(s_trade)
-               bot.reply_closed_trade_to_channel(s_trade, trader_name)
+from messages.new_trade_message import NewTradeMessage
+from messages.closed_trade_message import ClosedTradeMessage
+from config import CALLS_CHANNEL_NAME
 
-def check_opened_trades(trades, stored_trades,trader_name,trader_id):
-     for trade in trades:
-          if trades_functions.check_for_new_trade(stored_trades, trade):
-            msg_id = bot.send_open_trade_message_to_channel(trade, trader_name)
-            sql_functions.insert_trade(trade, trader_id, msg_id)
+
+def check_closed_trades(trades, stored_trades, trader_name):
+    for s_trade in stored_trades:
+        if trades_functions.is_trade_closed(trades, s_trade):
+            db_functions.delete_trade(s_trade)
+            closed_trade_message = ClosedTradeMessage(s_trade, trader_name)
+            message_text = closed_trade_message.generate_message()
+            bot.send_telegram_message(
+                chat_id=CALLS_CHANNEL_NAME,
+                message_text=message_text,
+                reply_to_message_id=s_trade[9],
+                disable_notification=True
+            )
+def check_opened_trades(trades, stored_trades, trader_name, trader_id):
+    for trade in trades:
+        if trades_functions.is_trade_new(stored_trades, trade):
+            new_trade_message = NewTradeMessage(trade, trader_name)
+            message_text = new_trade_message.generate_message()
+            msg_id = bot.send_telegram_message(CALLS_CHANNEL_NAME,message_text)
+            db_functions.insert_trade(trade, trader_id, msg_id)
 
 def generate_table_trades():
-     trades = sql_functions.get_winning_losing_trades()
-     # Format : trade_id, symbol, opened, closed, message_id, profit
-
-     # Generate two {} arrays, named winning_trades and losing_trades, with indexes : message_id, symbol, opened, closed, profit
+     trades = db_functions.get_winning_losing_trades()
      winning_trades = []
      losing_trades = []
 

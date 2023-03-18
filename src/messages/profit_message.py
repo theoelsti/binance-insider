@@ -1,6 +1,6 @@
 from trades.trades_functions import generate_table_trades
-from bot.bot_actions import send_message_to_public_channel
-from database.sql_functions import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_loosing_trades
+from api.telegram import send_message_to_public_channel
+from database.db_functions import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_loosing_trades
 from datetime import datetime
 
 

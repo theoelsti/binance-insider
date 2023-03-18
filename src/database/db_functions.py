@@ -1,9 +1,9 @@
 import mysql.connector
-from trades.trades import get_trade_hash
+from trades.trades import generate_trade_hash
 import errors_printing as errors
 from time import time
 from contextlib import contextmanager
-from api.binance import get_trader_username_api
+from api.binance_api import fetch_trader_username
 PROFIT_TRESHOLD = 25
 
 @contextmanager
@@ -50,7 +50,7 @@ def insert_trader_with_uid(id):
     """
     Insert a trader after fetching his name from the API
     """
-    name = get_trader_username_api(id)
+    name = fetch_trader_username(id)
     insert_trader(id, name)
 
 def insert_trader(id, name):
@@ -110,7 +110,7 @@ def insert_trade(trade, trader_uid, msg_id):
     """
     Insert trade into the database
     """
-    id_hash = get_trade_hash(trade, trader_uid)
+    id_hash = generate_trade_hash(trade, trader_uid)
 
     query = "INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id) VALUES ('{}', '{}', {}, {}, {}, {}, {}, '{}', {}, {}, '{}',{})".format(
         id_hash,

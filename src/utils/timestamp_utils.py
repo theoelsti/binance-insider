@@ -8,7 +8,7 @@ def format_timestamp(timestamp):
     days = time_difference.days
     hours, remainder = divmod(time_difference.seconds, 3600)
     minutes = remainder // 60
-
+    
     # Format the time difference
     formatted_time = []
     if days > 0:
