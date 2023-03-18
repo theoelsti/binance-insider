@@ -1,4 +1,4 @@
-#from trades.trades_functions import generate_table_trades
+from trades.trades_functions import generate_table_trades
 from api.telegram import send_telegram_message
 from database.db_functions import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_loosing_trades
 from datetime import datetime
