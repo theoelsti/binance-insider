@@ -22,17 +22,19 @@ trap exit_script SIGINT
 trap restart_script SIGTERM
 
 sendMessage(){
+  log_content=$(cat errors.log)
   # If the script exits, send a message to the channel indicating the bot crashed
 curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
   -d "chat_id=$CHANNEL_ID" \
-  -d "text=The bot has crashed. Please check the logs and restart it."
+  -d "parse_mode=markdown" \
+  -d "text=The bot has crashed. Please check the logs and restart it.\n Error: ```$log_content```"
 
 }
 
 # Infinite loop
 while true; do
     # Your commands here
-    python3 $SCRIPT_PATH
+    python3 $SCRIPT_PATH 2> errors.log
     sendMessage
 done
 
