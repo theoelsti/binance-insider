@@ -27,7 +27,8 @@ if __name__ == "__main__":
           script_startup = datetime.datetime.now()
           while working:
                closed_trades = get_closed_trade()
-               if script_startup.hour >= 21 and script_startup.minute < 2 and closed_trades != []:
+               if script_startup.hour >= 21 and script_startup.minute < 1 and closed_trades != []:
+                   print("Time to close")
                    send_daily_message()
                    working = False
                    break
