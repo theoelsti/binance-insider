@@ -4,7 +4,6 @@ import api.binance_api as binance_api
 import trades.trades as trades_functions
 import api.telegram as bot
 from time import sleep, time
-from bot.user_app import init_app
 import trades.trades_functions as checks
 import datetime
 from messages.profit_message import send_daily_message
@@ -27,6 +26,7 @@ if __name__ == "__main__":
           script_startup = datetime.datetime.now()
           while working:
                closed_trades = get_closed_trade()
+               
                if script_startup.hour >= 21 and script_startup.minute < 1 and closed_trades != []:
                    print("Time to close")
                    send_daily_message()
@@ -36,6 +36,9 @@ if __name__ == "__main__":
                if current_time - last_print_time >= 60:
                     last_print_time = current_time
                     print("[i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
+                    print(script_startup.hour)
+                    print(script_startup.minute)
+                    print(closed_trades)
                main()
                sleep(15)
           print("Exiting")
