@@ -13,7 +13,6 @@ def handle_error(trader_uid, error):
     errors.print_error(f"Error while fetching trades for trader: {trader_uid}")
     errors.print_error(error)
 
-
 def fetch_top_traders(limit, trade_type="PERPETUAL"):
     """
     Fetch the top traders from Binance Futures.
@@ -39,7 +38,6 @@ def fetch_top_traders(limit, trade_type="PERPETUAL"):
     for trader in response_data[:limit]:
         traders.append([trader['encryptedUid'], trader['nickName']])
     return traders
-
 
 def fetch_trader_trades(trader_uid, trade_type="PERPETUAL"):
     """
@@ -88,7 +86,6 @@ def fetch_trader_info(trader_uid):
     query = f"INSERT INTO traders (uid,name) VALUES ({trader_info['encryptedUid']}, {trader_info['nickName']})"
     sql.insert(query)
     return trader_info
-
 
 def fetch_trader_username(trader_uid):
     """

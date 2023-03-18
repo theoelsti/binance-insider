@@ -1,7 +1,5 @@
 import requests
-from time import sleep,time
-import errors_printing as errors
-from utils.timestamp_utils import format_timestamp
+from time import sleep
 from config import BOT_API_KEY
 
 def handle_telegram_response(response):
