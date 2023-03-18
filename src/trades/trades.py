@@ -18,7 +18,6 @@ def check_for_new_trade(stored_trades, trade_a):
 
     for trade_l in stored_trades:
         id_hash = get_trade_hash(trade_a, trade_l[11])
-        print("Verifiying trade " + id_hash + "")
         if trade_l[0] == id_hash:
             new = False
             profit = sql_functions.check_for_profit(trade_l)
