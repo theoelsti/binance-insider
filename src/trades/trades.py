@@ -29,9 +29,7 @@ def check_for_new_trade(stored_trades, trade_a):
             break
     if trade_a["updateTimeStamp"] < (int(time() * 1000) - 300000):
         new = False
-    
-    if trade_a["entryPrice"] != trade_a["price"]:
-        new = False
+
     if percentage_difference > 5:
         new = False
     return new
