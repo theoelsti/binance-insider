@@ -52,7 +52,7 @@ def send_daily_message():
     total_profit = profit + losses
     profit_message = ProfitMessage(winning_trades, losing_trades, profit, losses)
     message = profit_message.generate_message()
-    send_telegram_message(public_channel,message,protect_content=False)
+    send_telegram_message(public_channel,message,protect_content=False,parse_mode="Markdown")
 
     daily_count = get_count_winning_loosing_trades()
     insert_daily_profit(daily_count[0][0],daily_count[1][0],total_profit)
