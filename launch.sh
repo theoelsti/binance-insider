@@ -7,9 +7,34 @@ SCRIPT_PATH="src/main.py"
 
 # Start the Python script
 python3 $SCRIPT_PATH
+restart_script() {
+    echo "Script terminated. Restarting in 1 minute..."
+    sleep 60
+    exec "$0"
+}
+exit_script() {
+    echo "Exiting script gracefully..."
+    exit 0
+}
 
-# If the script exits, send a message to the channel indicating the bot crashed
+sendMessage(){
+  # If the script exits, send a message to the channel indicating the bot crashed
 curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
   -d "chat_id=$CHANNEL_ID" \
   -d "text=The bot has crashed. Please check the logs and restart it."
+
+}
+
+# Trap to handle the script shutdown (SIGINT) and restart (SIGTERM)
+trap exit_script SIGINT
+trap restart_script SIGTERM
+
+# Infinite loop
+while true; do
+    # Your commands here
+    python3 $SCRIPT_PATH
+    sendMessage
+done
+
+
 
