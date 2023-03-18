@@ -3,7 +3,7 @@
 # Set your bot API key here
 BOT_API_KEY="6089060960:AAEqhHfUVLgfnS0QsbEA4pcRl_jQ1STDQJM"
 CHANNEL_ID="-1001907693181"
-SCRIPT_PATH="src/test.py"
+SCRIPT_PATH="src/main.py"
 
 restart_script() {
     echo "Script terminated. Restarting in 1 minute..."
