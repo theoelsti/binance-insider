@@ -36,7 +36,7 @@ if __name__ == "__main__":
                     last_print_time = current_time
                     print("[i] Bot is running. Total trades stored : " + str(sql_functions.count_total_trades()))
                main()
-               sleep(25)
+               sleep(15)
           print("Exiting")
      except KeyboardInterrupt:
           print("Exiting")
