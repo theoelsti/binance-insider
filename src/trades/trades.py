@@ -16,6 +16,9 @@ def check_for_new_trade(stored_trades, trade_a):
     """
     new = True
 
+    difference = abs(trade_a['entryPrice'] - trade_a['marketPrice'])
+    percentage_difference = (difference / trade_a['entryPrice']) * 100
+
     for trade_l in stored_trades:
         id_hash = get_trade_hash(trade_a, trade_l[11])
         if trade_l[0] == id_hash:
@@ -25,6 +28,11 @@ def check_for_new_trade(stored_trades, trade_a):
                 reply_profit_trade_to_channel(trade_l[1], profit, trade_l[7], trade_l[9])
             break
     if trade_a["updateTimeStamp"] < (int(time() * 1000) - 300000):
+        new = False
+    
+    if trade_a["entryPrice"] != trade_a["price"]:
+        new = False
+    if percentage_difference > 5:
         new = False
     return new
 
