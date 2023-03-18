@@ -1,8 +1,8 @@
 from trades.trades_functions import generate_table_trades
-from api.telegram import send_message_to_public_channel
+from api.telegram import send_telegram_message
 from database.db_functions import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_loosing_trades
 from datetime import datetime
-
+from config import PUBLIC_CHANNEL_NAME as public_channel
 
 PUBLIC_CHANNEL_NAME = '1864787410'
 CALLS_CHANNEL_NAME  = '1835398982'
@@ -52,7 +52,7 @@ def send_daily_message():
     total_profit = profit + losses
     profit_message = ProfitMessage(winning_trades, losing_trades, profit, losses)
     message = profit_message.generate_message()
-    send_message_to_public_channel(message)
+    send_telegram_message(public_channel,message,protect_content=False)
 
     daily_count = get_count_winning_loosing_trades()
     insert_daily_profit(daily_count[0][0],daily_count[1][0],total_profit)
