@@ -38,7 +38,6 @@ def send_telegram_message(chat_id, message_text, reply_to_message_id=None, disab
         else:
             sleep(retry_after)
 
-def send_message_to_public_channel(message_text):
     sent_message = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', {
         'chat_id': PUBLIC_CHANNEL_NAME,
         'text': message_text,
