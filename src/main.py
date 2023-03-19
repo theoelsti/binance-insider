@@ -26,7 +26,7 @@ if __name__ == "__main__":
           while working:
                current_date = datetime.datetime.now()
                closed_trades = get_closed_trade()
-               if current_date.hour >= 20 and current_date.minute == 30 and closed_trades != []:
+               if current_date.hour >= 20 and current_date.minute == 00 and closed_trades != []:
                    print("Time to close")
                    send_daily_message()
                    working = False
