@@ -26,7 +26,7 @@ if __name__ == "__main__":
           while working:
                current_date = datetime.datetime.now()
                closed_trades = get_closed_trade()
-               if current_date.hour >= 20 and current_date.minute == 00 and closed_trades != []:
+               if current_date.hour == 19 and current_date.minute == 00 and closed_trades != []:
                    print("Time to close")
                    send_daily_message()
                    working = False
@@ -37,6 +37,5 @@ if __name__ == "__main__":
                     print("[i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
                main()
                sleep(15)
-          print("Exiting")
      except KeyboardInterrupt:
           print("Exiting")
