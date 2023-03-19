@@ -34,7 +34,7 @@ class ProfitMessage:
         message += "\nRemember to manage your risks and follow our trading guidelines."
 
         message += "\n\nTo join us and get access to our exclusive trading signals, just contact our [bot](https://t.me/BinanceInsider_bot) or visit our [online shop](https://binanceinsider.mysellix.io) and order your ticket!"
-        message += "\n\nSign up on [MEXC](https://www.mexc.com/register?inviteCode=1auka), our recommended exchange, and enjoy the lowest trading fees in the market! 💰"
+        message += "\n\nSign up on [Bybit](https://www.bybit.com/invite?ref=NP1WKV), our recommended exchange, and enjoy the lowest trading fees in the market! 💰"
         return message
 
 
