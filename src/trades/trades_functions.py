@@ -43,5 +43,5 @@ def generate_opened_trade_table():
      trades = db_functions.get_opened_trades()
      opened_trades = []
      for trade in trades:
-          opened_trades.append({'message_id': trade[8], 'pair': trade[1], 'opened': trade[6], 'profit': round(trade[5],3)})
+          opened_trades.append({'message_id': trade[0], 'pair': trade[1], 'profit': round(trade[2],3)})
      return(opened_trades)

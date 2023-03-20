@@ -238,6 +238,20 @@ def get_sum_profit():
         """)
         return cursor.fetchone()
 
+def get_today_sum_profit():
+    """
+    Get sum of all profits from the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("""
+            SELECT
+                SUM(CASE WHEN profit > 0 THEN profit ELSE 0 END) as total_positive_profit,
+                SUM(CASE WHEN profit < 0 THEN profit ELSE 0 END) as total_losses
+            FROM daily_trades
+            WHERE closed < UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL 1 DAY) + INTERVAL 21 HOUR) * 1000;
+        """)
+        return cursor.fetchone()
 
 def delete_daily_trades():
     """
@@ -290,11 +304,12 @@ def get_closed_trade():
         cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM daily_trades;")
         return cursor.fetchall()
+
 def get_opened_trades():
     """
     Get all opened trades from the database
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT * FROM trades ORDER BY roe DESC LIMIT 3;")
+        cursor.execute("SELECT telegram_message_id,symbol,roe FROM trades ORDER BY roe DESC LIMIT 3;")
         return cursor.fetchall()
