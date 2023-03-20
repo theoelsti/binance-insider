@@ -238,6 +238,7 @@ def get_sum_profit():
         """)
         return cursor.fetchone()
 
+
 def delete_daily_trades():
     """
     Delete all daily profits from the database
@@ -288,4 +289,12 @@ def get_closed_trade():
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
         cursor.execute("SELECT * FROM daily_trades;")
+        return cursor.fetchall()
+def get_opened_trades():
+    """
+    Get all opened trades from the database
+    """
+    with get_connection() as conn:
+        cursor = conn.cursor(buffered=True)
+        cursor.execute("SELECT * FROM trades ORDER BY roe DESC LIMIT 3;")
         return cursor.fetchall()

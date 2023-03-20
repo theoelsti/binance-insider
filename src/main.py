@@ -6,7 +6,7 @@ import api.telegram as bot
 from time import sleep, time
 import trades.trades_functions as checks
 import datetime
-from messages.profit_message import send_daily_message
+from messages.profit_message import send_message
 from database.db_functions import get_closed_trade,get_traders
 top10 = []
 
@@ -26,9 +26,9 @@ if __name__ == "__main__":
           while working:
                current_date = datetime.datetime.now()
                closed_trades = get_closed_trade()
-               if current_date.hour >= 20 and current_date.minute == 00 and closed_trades != []:
+               if current_date.hour >= 20 and current_date.minute == 00:
                    print("Time to close")
-                   send_daily_message()
+                   send_message()
                    working = False
                    break
                current_time = time()

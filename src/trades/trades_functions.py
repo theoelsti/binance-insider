@@ -27,6 +27,7 @@ def check_opened_trades(trades, stored_trades, trader_name, trader_id):
             db_functions.insert_trade(trade, trader_id, msg_id)
 
 def generate_table_trades():
+     
      trades = db_functions.get_winning_losing_trades()
      winning_trades = []
      losing_trades = []
@@ -37,3 +38,10 @@ def generate_table_trades():
           losing_trades.append({'message_id': trade[4], 'pair': trade[1], 'opened': trade[2], 'closed': trade[3], 'profit': round(trade[5],3)})
 
      return([winning_trades, losing_trades])
+
+def generate_opened_trade_table():
+     trades = db_functions.get_opened_trades()
+     opened_trades = []
+     for trade in trades:
+          opened_trades.append({'message_id': trade[8], 'pair': trade[1], 'opened': trade[6], 'profit': round(trade[5],3)})
+     return(opened_trades)
