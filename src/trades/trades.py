@@ -45,7 +45,7 @@ def is_trade_new(stored_trades, trade_api):
     if trade_api["updateTimeStamp"] < (int(time() * 1000) - 300000):
         is_new = False
 
-    if percentage_difference > 5:
+    if percentage_difference > 1:
         if is_new:
             print("Trade is too far from entry price, not adding to database.")
             # print trade details
