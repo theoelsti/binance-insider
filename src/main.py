@@ -37,6 +37,5 @@ if __name__ == "__main__":
                     print("[i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
                main()
                sleep(15)
-          print("Exiting")
      except KeyboardInterrupt:
           print("Exiting")
