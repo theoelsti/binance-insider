@@ -1,6 +1,5 @@
 from utils.timestamp_utils import format_timestamp
 from time import time
-import utils.logs as custom_logging
 class ProfitTradeMessage:
     def __init__(self, pair, profit, timestamp):
         self.pair = pair
