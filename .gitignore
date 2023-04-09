@@ -159,4 +159,3 @@ cython_debug/
 #.idea/
 tokens.csv
 src/tests.py
-config/config.ini
