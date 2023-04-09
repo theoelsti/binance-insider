@@ -1,30 +1,4 @@
 #!/bin/bash
-echo > errors.log
-
-if ! command -v urlencode &> /dev/null
-then
-    echo "urlencode not found, attempting to install."
-    if [ "$(uname)" == "Darwin" ]; then
-        # Install on macOS
-        brew install gridsite
-    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-        # Install on Linux
-        if [ -f /etc/debian_version ]; then
-            # Debian/Ubuntu
-            sudo apt-get update
-            sudo apt-get install -y gridsite-clients
-        elif [ -f /etc/redhat-release ]; then
-            # CentOS/RHEL
-            sudo yum install -y gridsite
-        else
-            echo "Unsupported Linux distribution. Please install gridsite manually."
-            exit 1
-        fi
-    else
-        echo "Unsupported operating system. Please install gridsite manually."
-        exit 1
-    fi
-fi
 
 # Set your bot API key here
 BOT_API_KEY="[INSERT_YOUR_TELEGRAM_BOT_API_TOKEN]"
