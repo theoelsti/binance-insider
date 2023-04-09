@@ -25,20 +25,20 @@ if __name__ == "__main__":
 
           print(f"[{current_date.strftime('%d-%m-%Y %H:%M:%S')}] [i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
 
-          while working == True:
+          while working is True:
                current_date = datetime.datetime.now()
                closed_trades = get_closed_trade()
-               if current_date.hour == 19 and current_date.minute == 00 and working == True:
+               if current_date.hour == 19 and current_date.minute == 00 and working is True:
                    print("Time to close")
                    send_message()
                    working = False
                    break
                current_time = time()
-               if current_time - last_print_time >= 1800 and working == True:
+               if current_time - last_print_time >= 1800 and working is True:
                     last_print_time = current_time
                     # Format [DD-MM-YYYY HH:MM:SS]
                     print(f"[{current_date.strftime('%d-%m-%Y %H:%M:%S')}] [i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
-               if working == True:
+               if working is True:
                    main()
                    sleep(20)
 
