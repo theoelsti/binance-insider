@@ -1,9 +1,11 @@
 #!/bin/bash
 
 # Set your bot API key here
-BOT_API_KEY="[INSERT_YOUR_TELEGRAM_BOT_API_TOKEN]"
-CHANNEL_ID="[INSERT_YOUR_TELEGRAM_CHANNEL]"
+CONFIG_PATH="config/config.ini"
+BOT_API_KEY=$(awk -F '=' '/bot_api_key/ {print $2}' $CONFIG_FILE | tr -d ' ')
+CHANNEL_ID=$(awk -F '=' '/calls_channel_name/ {print $2}' $CONFIG_FILE | tr -d ' ')
 SCRIPT_PATH="src/main.py"
+
 
 restart_script() {
     echo "Script terminated. Restarting in 1 minute..."
@@ -36,8 +38,7 @@ sendMessage() {
 # Infinite loop
 while true; do
     # Run the Python script and redirect errors to the log file
-    python3 $SCRIPT_PATH 2> errors.log
-    
+    python3 $SCRIPT_PATH --config $CONFIG_PATH 2> errors.log    
     # If the Python script exits with an error, send the log content
     if [ $? -ne 0 ]; then
         sendMessage
