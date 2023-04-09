@@ -2,8 +2,8 @@
 
 # Set your bot API key here
 CONFIG_PATH="config/config.ini"
-BOT_API_KEY=$(awk -F '=' '/bot_api_key/ {print $2}' $CONFIG_FILE | tr -d ' ')
-CHANNEL_ID=$(awk -F '=' '/calls_channel_name/ {print $2}' $CONFIG_FILE | tr -d ' ')
+BOT_API_KEY=$(awk -F '=' '/BOT_API_KEY/ {print $2}' $CONFIG_FILE | tr -d ' ')
+CHANNEL_ID=$(awk -F '=' '/DEV_CHANNEL_ID/ {print $2}' $CONFIG_FILE | tr -d ' ')
 SCRIPT_PATH="src/main.py"
 
 
