@@ -32,13 +32,6 @@ CREATE TABLE trades (
     FOREIGN KEY (trader_uid) REFERENCES traders(uid)
 );
 
-CREATE TABLE subscription_tokens (
-    id SERIAL PRIMARY KEY,
-    token VARCHAR(32) NOT NULL UNIQUE,
-    subscription_type VARCHAR(20) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    claimed BOOLEAN DEFAULT FALSE
-);
 
 CREATE TABLE daily_trades (
     trade_id VARCHAR(64) PRIMARY KEY,

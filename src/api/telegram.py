@@ -11,7 +11,7 @@ def handle_telegram_response(response):
             print(f"Retry after {retry_after} seconds")
             return retry_after
         else:
-            raise Exception("Unhandled Telegram error")
+            raise Exception("Unhandled Telegram error during message sending")
 
 def send_telegram_message(chat_id, message_text, reply_to_message_id=None, disable_notification=False, parse_mode=None,protect_content=True):
     params = {
@@ -29,7 +29,7 @@ def send_telegram_message(chat_id, message_text, reply_to_message_id=None, disab
         params['parse_mode'] = parse_mode
 
     while True:
-        response = requests.get('https://api.telegram.org/bot{}/sendMessage'.format(telegram_config['bot_api_key']), params)        
+        response = requests.get(f"https://api.telegram.org/bot{format(telegram_config['bot_api_key'])}/sendMessage", params)        
         retry_after = handle_telegram_response(response)
 
         if retry_after is None:

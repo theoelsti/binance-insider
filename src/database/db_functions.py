@@ -26,7 +26,7 @@ def get_trader_username(id):
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT name FROM traders WHERE uid = '{}'".format(id))
+        cursor.execute(f"SELECT name FROM traders WHERE uid = '{format(id)}'")
         result = cursor.fetchone()
         if result:
             return result[0]
@@ -85,7 +85,7 @@ def check_trade_uid(uid):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT COUNT(*) FROM traders WHERE uid = '{}'".format(uid))
+            cursor.execute(f"SELECT COUNT(*) FROM traders WHERE uid = '{format(uid)}'")
             return cursor.fetchone()[0] == 0
     except Exception as e:
         print("Error checking trader uid", e)
@@ -98,10 +98,10 @@ def delete_trade(trade):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute("DELETE FROM trades WHERE id = '{}'".format(trade[0]))
+            cursor.execute(f"DELETE FROM trades WHERE id = '{format(trade[0])}'")
             conn.commit()
-            cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{}','{}',{},{},{},{});".format(trade[0],trade[1],trade[7],int(time()),trade[9],trade[5]))
-            cursor.execute("SELECT COUNT(*) FROM trades WHERE id = '{}'".format(trade[0]))
+            cursor.execute(f"INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{trade[0]}','{trade[1]}',{trade[7]},{int(time())},{trade[9]},{trade[5]});")
+            cursor.execute(f"SELECT COUNT(*) FROM trades WHERE id = '{format(trade[0])}'")
             conn.commit()
             return cursor.fetchone()[0] == 0
     except Exception as e:
@@ -114,10 +114,10 @@ def delete_trader(trader_uid):
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute("DELETE FROM trades WHERE trader_uid = '{}'".format(trader_uid))
-        cursor.execute("DELETE FROM traders WHERE uid = '{}'".format(trader_uid))
+        cursor.execute(f"DELETE FROM trades WHERE trader_uid = '{format(trader_uid)}'")
+        cursor.execute(f"DELETE FROM traders WHERE uid = '{format(trader_uid)}'")
         conn.commit()
-        cursor.execute("SELECT COUNT(*) FROM trades WHERE trader_uid = '{}'".format(trader_uid))
+        cursor.execute(f"SELECT COUNT(*) FROM trades WHERE trader_uid = '{format(trader_uid)}'")
         return cursor.fetchone()[0] == 0
 
 def insert_trade(trade, trader_uid, msg_id):
@@ -126,21 +126,7 @@ def insert_trade(trade, trader_uid, msg_id):
     """
     id_hash = generate_trade_hash(trade, trader_uid)
 
-    query = "INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id,drawdown) VALUES ('{}', '{}', {}, {}, {}, {}, {}, '{}', {}, {}, '{}',{},{})".format(
-        id_hash,
-        trade["symbol"],
-        trade["entryPrice"],
-        trade["markPrice"],
-        trade["pnl"],
-        trade["roe"],
-        trade["amount"],
-        time(),
-        trade["leverage"],
-        1 if trade["amount"] > 0 else 0,
-        trader_uid,
-        msg_id,
-        float(trade["roe"]) if trade["roe"] < 0 else 0
-    )
+    query = f"INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id,drawdown) VALUES ('{id_hash}', '{trade['symbol']}', {trade['entryPrice']}, {trade['markPrice']}, {trade['pnl']}, {trade['roe']}, {trade['amount']}, '{time()}', {trade['leverage']}, {1 if trade['amount'] > 0 else 0}, '{trader_uid}',{msg_id},{ float(trade['roe']) if trade['roe'] < 0 else 0})"
 
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
@@ -148,15 +134,15 @@ def insert_trade(trade, trader_uid, msg_id):
             cursor.execute(query)
             affected_rows = conn.commit()
             if affected_rows == 0:
-                custom_logging.add_log("Duplicate entry or other error: {}".format(id_hash))
+                custom_logging.add_log(f"Duplicate entry or other error: {id_hash}")
         except Exception as e:
-            custom_logging.add_log("Failed to insert trade into the database: {}".format(e))
+            custom_logging.add_log(f"Failed to insert trade into the database: {e}")
 
 def get_trades(trader_uid):
     """
     Get all trades for a trader from the database
     """
-    query = "SELECT * FROM trades WHERE trader_uid = '{}'".format(trader_uid)
+    query = f"SELECT * FROM trades WHERE trader_uid = '{trader_uid}'"
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
@@ -172,7 +158,7 @@ def update_trade(trade, trade_id,drawdown):
     if trade['roe'] < drawdown:
         drawdown = trade['roe']
     
-    query = "UPDATE trades SET mark_price= {}, pnl = {}, roe = {}, amount = {},drawdown={} WHERE id = '{}';".format(trade["markPrice"], trade["pnl"], trade["roe"], trade["amount"], drawdown,trade_id)
+    query = f"UPDATE trades SET mark_price= {trade['markPrice']}, pnl = {trade['pnl']}, roe = {trade['roe']}, amount = {trade['amount']},drawdown={drawdown} WHERE id = '{trade_id}';"
 
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
@@ -180,7 +166,7 @@ def update_trade(trade, trade_id,drawdown):
             cursor.execute(query)
             conn.commit()
         except Exception as e:
-            print("Error while updating trade: {}".format(e))
+            print(f"Error while updating trade: {e}")
             raise
 
 def check_for_profit(s_trade):
@@ -190,7 +176,7 @@ def check_for_profit(s_trade):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute("SELECT roe, announced_roe FROM trades WHERE id = '{}'".format(s_trade[0]))
+            cursor.execute(f"SELECT roe, announced_roe FROM trades WHERE id = '{s_trade[0]}'")
 
             result = cursor.fetchone()
 
@@ -202,10 +188,7 @@ def check_for_profit(s_trade):
                     announced_trade = 0
                 if int(roe_percentage) > int(announced_trade) + settings_config['profit_threshold']:
                     cursor.execute(
-                        "UPDATE trades SET announced_roe = {} WHERE id = '{}'".format(
-                            int(announced_trade) + settings_config['profit_threshold'], s_trade[0]
-                        )
-                    )
+                        f"UPDATE trades SET announced_roe = {int(announced_trade) + settings_config['profit_threshold']} WHERE id = '{s_trade[0]}'")
                     conn.commit()
                     return int(announced_trade) + settings_config['profit_threshold']
                 else:
@@ -214,34 +197,7 @@ def check_for_profit(s_trade):
                 return 0
     except Exception as e:
         print("Failed to check for profit: " + str(e))
-
-def insert_token(token, type):
-    """
-    Insert token into the database
-    """
-    with get_connection() as conn:
-        cursor = conn.cursor(buffered=True)
-        try:
-            cursor.execute(
-                "INSERT INTO subscription_tokens (token, subscription_type) VALUES ('{}', '{}')".format(token, type)
-            )
-            conn.commit()
-        except Exception as e:
-            print("Error: {}".format(e))
-
-def get_tokens(type):
-    """
-    Get all tokens from the database
-    """
-    with get_connection() as conn:
-        cursor = conn.cursor(buffered=True)
-        cursor.execute("SELECT token FROM subscription_tokens WHERE subscription_type = '{}'".format(type))
-        conn.commit()
-
-        tokens = cursor.fetchall()
-        if not tokens:
-            raise ValueError("No tokens found for type {}".format(type))
-        return tokens
+print(f"Error: {e}")
 
 def get_sum_profit():
     """
