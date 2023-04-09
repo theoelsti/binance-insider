@@ -3,8 +3,10 @@ import api.telegram as bot
 import trades.trades as trades_functions
 from messages.new_trade_message import NewTradeMessage
 from messages.closed_trade_message import ClosedTradeMessage
-from config import CALLS_CHANNEL_NAME
+from utils.config_handler import telegram_config
 import utils.logs as custom_logging
+
+CALLS_CHANNEL_ID = telegram_config['calls_channel_id']
 
 def check_closed_trades(trades, stored_trades, trader_name):
     for s_trade in stored_trades:
@@ -13,7 +15,7 @@ def check_closed_trades(trades, stored_trades, trader_name):
             closed_trade_message = ClosedTradeMessage(s_trade, trader_name)
             message_text = closed_trade_message.generate_message()
             bot.send_telegram_message(
-                chat_id=CALLS_CHANNEL_NAME,
+                chat_id=CALLS_CHANNEL_ID,
                 message_text=message_text,
                 reply_to_message_id=s_trade[9],
                 disable_notification=True
@@ -25,7 +27,7 @@ def check_opened_trades(trades, stored_trades, trader_name, trader_id):
           if trades_functions.is_trade_new(stored_trades, trade):
                new_trade_message = NewTradeMessage(trade, trader_name)
                message_text = new_trade_message.generate_message()
-               msg_id = bot.send_telegram_message(CALLS_CHANNEL_NAME,message_text)
+               msg_id = bot.send_telegram_message(CALLS_CHANNEL_ID,message_text)
                db_functions.insert_trade(trade, trader_id, msg_id)
                custom_logging.add_log(f"Trade {trade['symbol']} placed @ {trade['entryPrice']} has been sumbitted to the database.")
 def generate_table_trades():

@@ -2,9 +2,11 @@ from trades.trades_functions import generate_table_trades,generate_opened_trade_
 from api.telegram import send_telegram_message
 from database.db_functions import get_sum_profit,delete_daily_trades,insert_daily_profit,get_count_winning_loosing_trades,get_today_sum_profit
 from datetime import datetime
-from config import PUBLIC_CHANNEL_NAME as public_channel
-PUBLIC_CHANNEL_NAME = '[INSERT_YOUR_PUBLIC_CHANNEL_NAME_WITHOUT_-100_HERE]'
-CALLS_CHANNEL_NAME  = '[INSERT_YOUR_CALLS_CHANNEL_NAME_WITHOUT_-100_HERE]'
+from utils.config_handler import telegram_config
+
+PUBLIC_CHANNEL_NAME = telegram_config['public_channel_name']
+CALLS_CHANNEL_ID  = telegram_config['calls_channel_id'][4:]
+
 class WeeklyProfitMessage:
     def __init__(self, winning_trades, losing_trades, profit, losses):
         self.winning_trades = winning_trades
@@ -18,10 +20,10 @@ class WeeklyProfitMessage:
         message = f"🚀 **{formatted_date} - Weekly Profit Announcement!** 🚀\n\n"
         message += "🥇 *Top 3 Winning Trades:*\n"
         for i, trade in enumerate(self.winning_trades, start=1):
-            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) : #{trade['pair']} - Profit: _{round(trade['profit']*100,2)}%_ 💰\n"
+            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_ID}/{trade['message_id']}) : #{trade['pair']} - Profit: _{round(trade['profit']*100,2)}%_ 💰\n"
         message += "\n🛑 *Top 3 Losing Trades:*\n"
         for i, trade in enumerate(self.losing_trades, start=1):
-            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) : #{trade['pair']} - Loss: _{round(trade['profit']*100,2)}%_ 😢\n"
+            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_ID}/{trade['message_id']}) : #{trade['pair']} - Loss: _{round(trade['profit']*100,2)}%_ 😢\n"
         message += "\n📈 *Overall Performance:*\n"
         message += f"Total Profit: _{round(self.profit*100,3)}%_ 💰\n"
         message += f"Total Losses: _{round(self.losses*100,3)}%_ 😢\n"
@@ -44,7 +46,7 @@ class DailyProfitMessage:
 
         message += "\n🥇 *Top 3 Currently Opened Trades:*\n"
         for i, trade in enumerate(self.winning_trades, start=1):
-            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_NAME}/{trade['message_id']}) : #{trade['pair']} - Profit: _{round(trade['profit']*100,2)}%_ 💰\n"
+            message += f"[Trade n°{i}](https://t.me/c/{CALLS_CHANNEL_ID}/{trade['message_id']}) : #{trade['pair']} - Profit: _{round(trade['profit']*100,2)}%_ 💰\n"
 
         return message
 
@@ -60,7 +62,7 @@ def send_weekly_message():
     total_profit = profit + losses
     profit_message = WeeklyProfitMessage(winning_trades, losing_trades, profit, losses)
     message = profit_message.generate_message()
-    send_telegram_message(public_channel,message,protect_content=False,parse_mode="Markdown")
+    send_telegram_message(PUBLIC_CHANNEL_NAME,message,protect_content=False,parse_mode="Markdown")
 
     daily_count = get_count_winning_loosing_trades()
     insert_daily_profit(daily_count[0][0],daily_count[1][0],total_profit)
@@ -76,7 +78,7 @@ def send_daily_message():
 
 
     profit_message = DailyProfitMessage(trades, profit, losses).generate_messages()
-    send_telegram_message(public_channel,profit_message,protect_content=False,parse_mode="Markdown")
+    send_telegram_message(PUBLIC_CHANNEL_NAME,profit_message,protect_content=False,parse_mode="Markdown")
 
 def send_message():
     # check if we are sunday

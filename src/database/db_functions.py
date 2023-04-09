@@ -4,16 +4,15 @@ from time import time
 from contextlib import contextmanager
 from api.binance_api import fetch_trader_username
 import utils.logs as custom_logging
-from config import HOST, USER, PASSWORD, DATABASE,PROFIT_TRESHOLD
-
+from utils.config_handler import database_config, settings_config
 
 @contextmanager
 def get_connection():
     conn = mysql.connector.connect(
-        host=HOST,
-        user=USER,
-        password=PASSWORD,
-        database=DATABASE,
+        host=database_config['host'],
+        user=database_config['user'],
+        password=database_config['password'],
+        database=database_config['database'],
         auth_plugin="mysql_native_password"
     )
     try:
@@ -201,14 +200,14 @@ def check_for_profit(s_trade):
                 roe_percentage = int(roe * 100)
                 if announced_trade is None:
                     announced_trade = 0
-                if int(roe_percentage) > int(announced_trade) + PROFIT_TRESHOLD:
+                if int(roe_percentage) > int(announced_trade) + settings_config['profit_threshold']:
                     cursor.execute(
                         "UPDATE trades SET announced_roe = {} WHERE id = '{}'".format(
-                            int(announced_trade) + PROFIT_TRESHOLD, s_trade[0]
+                            int(announced_trade) + settings_config['profit_threshold'], s_trade[0]
                         )
                     )
                     conn.commit()
-                    return int(announced_trade) + PROFIT_TRESHOLD
+                    return int(announced_trade) + settings_config['profit_threshold']
                 else:
                     return 0
             else:

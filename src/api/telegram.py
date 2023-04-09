@@ -1,7 +1,6 @@
 import requests
 from time import sleep
-from config import BOT_API_KEY
-
+from utils.config_handler import telegram_config
 def handle_telegram_response(response):
     if response.status_code == 200:
         return None
@@ -30,7 +29,7 @@ def send_telegram_message(chat_id, message_text, reply_to_message_id=None, disab
         params['parse_mode'] = parse_mode
 
     while True:
-        response = requests.get(f'https://api.telegram.org/bot{BOT_API_KEY}/sendMessage', params)
+        response = requests.get('https://api.telegram.org/bot{}/sendMessage'.format(telegram_config['bot_api_key']), params)        
         retry_after = handle_telegram_response(response)
 
         if retry_after is None:

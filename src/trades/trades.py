@@ -4,8 +4,8 @@ from database import db_functions
 from api.telegram import send_telegram_message
 from messages.profit_trade_message import ProfitTradeMessage
 import utils.logs as custom_logging 
-from config import CALLS_CHANNEL_NAME
-
+from utils.config_handler import telegram_config
+CALLS_CHANNEL_ID = telegram_config['calls_channel_id']
 
 def generate_trade_hash(trade, trader_uid):
     """
@@ -41,7 +41,7 @@ def is_trade_new(stored_trades, trade_api):
             if profit:
                 profit_message = ProfitTradeMessage(stored_trade[1], profit, stored_trade[7])
                 message_text = profit_message.generate_message()
-                send_telegram_message(CALLS_CHANNEL_NAME, message_text, reply_to_message_id=stored_trade[9])
+                send_telegram_message(CALLS_CHANNEL_ID, message_text, reply_to_message_id=stored_trade[9])
                 custom_logging.add_log(f"Trade {stored_trade[1]} has reached a profit of {profit}%")
             break
 

@@ -1,4 +1,4 @@
-
+import argparse
 import database.db_functions as db_functions
 import api.binance_api as binance_api
 from time import sleep, time
@@ -6,6 +6,13 @@ import trades.trades_functions as checks
 import datetime
 from messages.profit_message import send_message
 from database.db_functions import get_closed_trade,get_traders
+from utils.config_handler import config
+
+parser = argparse.ArgumentParser(description='Binance Insider')
+parser.add_argument('--config', type=str, default='config/config.ini', help='Path to the config file')
+args = parser.parse_args()
+config.read(args.config)
+
 top10 = []
 
 def main():
