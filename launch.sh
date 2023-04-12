@@ -41,7 +41,7 @@ sendMessage() {
 # Infinite loop
 while true; do
     # Run the Python script and redirect errors to the log file
-    python3 $SCRIPT_PATH --config $CONFIG_FILE
+    python3 $SCRIPT_PATH --config $CONFIG_FILE 2> errors.log
     # If the Python script exits with an error, send the log content
     if [ $? -ne 0 ]; then
         sendMessage
