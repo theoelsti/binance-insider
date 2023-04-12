@@ -6,7 +6,6 @@ BOT_API_KEY=$(awk -F '=' '/bot_api_key/ {print $2}' $CONFIG_FILE | tr -d ' ')
 CHANNEL_ID=$(awk -F '=' '/dev_channel_id/ {print $2}' $CONFIG_FILE | tr -d ' ')
 SCRIPT_PATH="src/main.py"
 
-echo "ok"
 restart_script() {
     echo "Script terminated. Restarting in 1 minute..."
     sleep 60
