@@ -9,11 +9,12 @@
 
 <p align="center">
     <a>
-        <img src="https://img.shields.io/badge/python-3.7%2B-informational" alt="Python version">
+        <img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg" alt="Python version">
     </a>
     <a href="https://deepsource.io/gh/theoelsti/binance-insider">
         <img src="https://deepsource.io/gh/theoelsti/binance-insider.svg/?label=active+issues" alt="DeepSource">
     </a>
+    
 </p>
 
 ## Features
