@@ -76,5 +76,5 @@ then
         exit 1
     fi
 fi
-
+pip3 install -r requirements.txt
 exit 0
