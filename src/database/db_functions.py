@@ -220,7 +220,6 @@ def get_today_sum_profit():
                 SUM(CASE WHEN profit > 0 THEN profit ELSE 0 END) as total_positive_profit,
                 SUM(CASE WHEN profit < 0 THEN profit ELSE 0 END) as total_losses
             FROM daily_trades
-            WHERE closed < UNIX_TIMESTAMP(DATE_SUB(CURDATE(), INTERVAL 1 DAY) + INTERVAL 21 HOUR) * 1000;
         """)
         return cursor.fetchone()
 
