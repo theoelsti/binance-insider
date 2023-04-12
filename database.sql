@@ -3,15 +3,12 @@ USE binance_insider;
 
 -- Path: database.sql
 
-
 CREATE TABLE `traders` (
   `uid` varchar(255) NOT NULL,
   `name` text DEFAULT NULL
-)
+);
 
-CREATE TABLE `trades`;
 ALTER TABLE `traders` ADD PRIMARY KEY(`uid`);
-
 
 CREATE TABLE trades (
     id VARCHAR(64) NOT NULL,
@@ -31,7 +28,6 @@ CREATE TABLE trades (
     PRIMARY KEY (id),
     FOREIGN KEY (trader_uid) REFERENCES traders(uid)
 );
-
 
 CREATE TABLE daily_trades (
     trade_id VARCHAR(64) PRIMARY KEY,

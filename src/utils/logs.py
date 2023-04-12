@@ -7,7 +7,7 @@ log_file = f'logs/{date_str}_Logging_Binance-Insider.log'
 
 def configure_logging(log_level=logging.INFO):
     if not os.path.exists(log_file):
-        with open(log_file, 'w') as f:
+        with open(log_file, 'w'):
             pass
 
     log_format = '%(asctime)s - %(levelname)s - %(message)s'

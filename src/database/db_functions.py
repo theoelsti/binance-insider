@@ -9,12 +9,12 @@ from utils.config_handler import database_config, settings_config
 @contextmanager
 def get_connection():
     conn = mysql.connector.connect(
-        host=database_config['host'],
-        user=database_config['user'],
-        password=database_config['password'],
-        database=database_config['database'],
-        auth_plugin="mysql_native_password"
-    )
+        host        =   database_config['host'],
+        user        =   database_config['user'],
+        password    =   database_config['password'],
+        database    =   database_config['database'],
+        auth_plugin =   database_config['auth_plugin']  
+        )
     try:
         yield conn
     finally:
@@ -26,7 +26,7 @@ def get_trader_username(id):
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute(f"SELECT name FROM traders WHERE uid = '{format(id)}'")
+        cursor.execute("SELECT name FROM traders WHERE uid = %s", (id,))
         result = cursor.fetchone()
         if result:
             return result[0]
@@ -60,7 +60,7 @@ def insert_trader(id, name):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute("INSERT IGNORE INTO traders (uid,name) VALUES (%s,%s)", (id, name))
+            cursor.execute("INSERT IGNORE INTO traders (uid, name) VALUES (%s, %s)", (id, name))
             conn.commit()
     except Exception as e:
         custom_logging.add_log(f"Error inserting trader {id} {name}. ", e)
@@ -85,7 +85,7 @@ def check_trade_uid(uid):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute(f"SELECT COUNT(*) FROM traders WHERE uid = '{format(uid)}'")
+            cursor.execute("SELECT COUNT(*) FROM traders WHERE uid = %s", (uid,))
             return cursor.fetchone()[0] == 0
     except Exception as e:
         print("Error checking trader uid", e)
@@ -98,10 +98,10 @@ def delete_trade(trade):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute(f"DELETE FROM trades WHERE id = '{format(trade[0])}'")
+            cursor.execute("DELETE FROM trades WHERE id = %s", (trade[0],))
             conn.commit()
-            cursor.execute(f"INSERT INTO daily_trades (trade_id, symbol, opened,closed, message_id, profit) VALUES ('{trade[0]}','{trade[1]}',{trade[7]},{int(time())},{trade[9]},{trade[5]});")
-            cursor.execute(f"SELECT COUNT(*) FROM trades WHERE id = '{format(trade[0])}'")
+            cursor.execute("INSERT INTO daily_trades (trade_id, symbol, opened, closed, message_id, profit) VALUES (%s, %s, %s, %s, %s, %s)", (trade[0], trade[1], trade[7], int(time()), trade[9], trade[5]))
+            cursor.execute("SELECT COUNT(*) FROM trades WHERE id = %s", (trade[0],))
             conn.commit()
             return cursor.fetchone()[0] == 0
     except Exception as e:
@@ -114,10 +114,10 @@ def delete_trader(trader_uid):
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute(f"DELETE FROM trades WHERE trader_uid = '{format(trader_uid)}'")
-        cursor.execute(f"DELETE FROM traders WHERE uid = '{format(trader_uid)}'")
+        cursor.execute("DELETE FROM trades WHERE trader_uid = %s", (trader_uid,))
+        cursor.execute("DELETE FROM traders WHERE uid = %s", (trader_uid,))
         conn.commit()
-        cursor.execute(f"SELECT COUNT(*) FROM trades WHERE trader_uid = '{format(trader_uid)}'")
+        cursor.execute("SELECT COUNT(*) FROM trades WHERE trader_uid = %s", (trader_uid,))
         return cursor.fetchone()[0] == 0
 
 def insert_trade(trade, trader_uid, msg_id):
@@ -126,12 +126,11 @@ def insert_trade(trade, trader_uid, msg_id):
     """
     id_hash = generate_trade_hash(trade, trader_uid)
 
-    query = f"INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid,telegram_message_id,drawdown) VALUES ('{id_hash}', '{trade['symbol']}', {trade['entryPrice']}, {trade['markPrice']}, {trade['pnl']}, {trade['roe']}, {trade['amount']}, '{time()}', {trade['leverage']}, {1 if trade['amount'] > 0 else 0}, '{trader_uid}',{msg_id},{ float(trade['roe']) if trade['roe'] < 0 else 0})"
-
+    query = "INSERT INTO trades (id, symbol, entry_price, mark_price, pnl, roe, amount, update_timestamp, leverage, type, trader_uid, telegram_message_id, drawdown) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
         try:
-            cursor.execute(query)
+            cursor.execute(query, (id_hash, trade['symbol'], trade['entryPrice'], trade['markPrice'], trade['pnl'], trade['roe'], trade['amount'], time(), trade['leverage'], 1 if trade['amount'] > 0 else 0, trader_uid, msg_id, float(trade['roe']) if trade['roe'] < 0 else 0))
             affected_rows = conn.commit()
             if affected_rows == 0:
                 custom_logging.add_log(f"Duplicate entry or other error: {id_hash}")
@@ -142,11 +141,10 @@ def get_trades(trader_uid):
     """
     Get all trades for a trader from the database
     """
-    query = f"SELECT * FROM trades WHERE trader_uid = '{trader_uid}'"
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute(query)
+            cursor.execute("SELECT * FROM trades WHERE trader_uid = %s", (trader_uid,))
             return cursor.fetchall()
     except Exception as e:
         print(f"Error: {e}")
@@ -158,12 +156,12 @@ def update_trade(trade, trade_id,drawdown):
     if trade['roe'] < drawdown:
         drawdown = trade['roe']
     
-    query = f"UPDATE trades SET mark_price= {trade['markPrice']}, pnl = {trade['pnl']}, roe = {trade['roe']}, amount = {trade['amount']},drawdown={drawdown} WHERE id = '{trade_id}';"
+    query = "UPDATE trades SET mark_price= %s, pnl = %s, roe = %s, amount = %s, drawdown = %s WHERE id = %s"
 
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
         try:
-            cursor.execute(query)
+            cursor.execute(query, (trade['markPrice'], trade['pnl'], trade['roe'], trade['amount'], drawdown, trade_id))
             conn.commit()
         except Exception as e:
             print(f"Error while updating trade: {e}")
@@ -176,7 +174,7 @@ def check_for_profit(s_trade):
     try:
         with get_connection() as conn:
             cursor = conn.cursor(buffered=True)
-            cursor.execute(f"SELECT roe, announced_roe FROM trades WHERE id = '{s_trade[0]}'")
+            cursor.execute("SELECT roe, announced_roe FROM trades WHERE id = %s", (s_trade[0],))
 
             result = cursor.fetchone()
 
@@ -186,9 +184,8 @@ def check_for_profit(s_trade):
                 roe_percentage = int(roe * 100)
                 if announced_trade is None:
                     announced_trade = 0
-                if int(roe_percentage) > int(announced_trade) + settings_config['profit_threshold']:
-                    cursor.execute(
-                        f"UPDATE trades SET announced_roe = {int(announced_trade) + settings_config['profit_threshold']} WHERE id = '{s_trade[0]}'")
+                if int(roe_percentage) > int(announced_trade) + int(settings_config['profit_threshold']):
+                    cursor.execute("UPDATE trades SET announced_roe = %s WHERE id = %s", (int(announced_trade) + int(settings_config['profit_threshold']), s_trade[0]))
                     conn.commit()
                     return int(announced_trade) + settings_config['profit_threshold']
                 else:
@@ -197,7 +194,6 @@ def check_for_profit(s_trade):
                 return 0
     except Exception as e:
         print("Failed to check for profit: " + str(e))
-print(f"Error: {e}")
 
 def get_sum_profit():
     """
@@ -237,14 +233,13 @@ def delete_daily_trades():
         cursor.execute("TRUNCATE TABLE daily_trades")
         conn.commit()
 
-def insert_daily_profit(winning,loosing,profit):
+def insert_daily_profit(winning, loosing, profit):
     """
     Insert daily profit into the database
     """
     with get_connection() as conn:
         cursor = conn.cursor(buffered=True)
-        cursor.execute(f"INSERT INTO daily_summary (profit, total_trades, winning_trades, losing_trades, date) VALUES ({profit}, {int(winning) + int(loosing)}, {int(winning)}, {int(loosing)}, CURRENT_DATE);"
-)
+        cursor.execute("INSERT INTO daily_summary (profit, total_trades, winning_trades, losing_trades, date) VALUES (%s, %s, %s, %s, CURRENT_DATE);", (profit, int(winning) + int(loosing), int(winning), int(loosing)))
         conn.commit()
 
 def get_winning_losing_trades():

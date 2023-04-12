@@ -28,10 +28,10 @@ sendMessage() {
   # If the script exits, send a message to the channel indicating the bot crashed
   text="The bot has crashed. Please check the logs and restart it.\`\`\`$log_content\`\`\`"
   encoded_text=$(urlencode "$text")
-  req=$(curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
+  curl -s -X POST "https://api.telegram.org/bot$BOT_API_KEY/sendMessage" \
     -d "chat_id=$CHANNEL_ID" \
     -d "parse_mode=markdown" \
-    -d "text=$encoded_text")
+    -d "text=$encoded_text"
 }
 
 

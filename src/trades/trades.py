@@ -49,7 +49,7 @@ def is_trade_new(stored_trades, trade_api):
         custom_logging.add_log(f"Trade {trade_api['symbol']} placed @ {trade_api['entryPrice']} is older than 2.5 minutes.")
         is_new = False
     if percentage_difference > 3:
-        custom_logging.add_log(f"Trade {trade_api['symbol']} placed @ {trade_api['entryPrice']} is more than 3% away from current price.")
+        custom_logging.add_log(f"Trade {trade_api['symbol']} placed @ {trade_api['entryPrice']} is more than 3% away from current price ({percentage_difference}).")
         is_new = False 
  
     return is_new
