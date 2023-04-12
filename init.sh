@@ -41,7 +41,7 @@ then
     if [ "$(uname)" == "Darwin" ]; then
         # Install on macOS
         brew install gridsite
-    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    elif [ "$(expr substr "$(uname -s)" 1 5)" == "Linux" ]; then
         # Install on Linux
         if [ -f /etc/debian_version ]; then
             # Debian/Ubuntu

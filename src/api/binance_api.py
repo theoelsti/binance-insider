@@ -81,8 +81,7 @@ def fetch_trader_info(trader_uid):
     response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
     trader_info = response.json()['data']
 
-    query = f"INSERT INTO traders (uid,name) VALUES ({trader_info['encryptedUid']}, {trader_info['nickName']})"
-    sql.insert(query)
+    sql.insert_trader(trader_info['encryptedUid'],trader_info['nickName'])
     return trader_info
 
 def fetch_trader_username(trader_uid):

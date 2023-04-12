@@ -51,7 +51,7 @@ while true; do
     fi
 done
 SCRIPT_PATH=0
-CONFIG_PATH=0
+CONFIG_FILE=0
 BOT_API_KEY=0
 CHANNEL_ID=0
 exit 0
