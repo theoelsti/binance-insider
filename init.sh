@@ -59,4 +59,22 @@ then
         exit 1
     fi
 fi
+
+# Check for MySQL installation
+if ! command -v mysql &> /dev/null
+then
+    echo "MySQL not found, attempting to install."
+    if [ -f /etc/debian_version ]; then
+        # Debian/Ubuntu
+        sudo apt-get update
+        sudo apt-get install -y mysql-server
+    elif [ -f /etc/redhat-release ]; then
+        # CentOS/RHEL
+        sudo yum install -y mysql-server
+    else
+        echo "Unsupported Linux distribution. Please install MySQL manually."
+        exit 1
+    fi
+fi
+
 exit 0
