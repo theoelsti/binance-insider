@@ -41,10 +41,6 @@ sendMessage() {
 
 # Infinite loop
 while true; do
-    echo $SCRIPT_PATH
-    echo $CONFIG_PATH
-    echo $BOT_API_KEY
-    echo $CHANNEL_ID
     # Run the Python script and redirect errors to the log file
     python3 $SCRIPT_PATH --config $CONFIG_FILE
     # If the Python script exits with an error, send the log content
