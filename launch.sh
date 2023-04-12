@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Set your bot API key here
-CONFIG_PATH="config/config.ini"
+CONFIG_FILE="config/config.ini"
 BOT_API_KEY=$(awk -F '=' '/bot_api_key/ {print $2}' $CONFIG_FILE | tr -d ' ')
 CHANNEL_ID=$(awk -F '=' '/dev_channel_id/ {print $2}' $CONFIG_FILE | tr -d ' ')
 SCRIPT_PATH="src/main.py"
 
-
+echo "ok"
 restart_script() {
     echo "Script terminated. Restarting in 1 minute..."
     sleep 60
@@ -37,8 +37,12 @@ sendMessage() {
 
 # Infinite loop
 while true; do
+    echo $SCRIPT_PATH
+    echo $CONFIG_PATH
+    echo $BOT_API_KEY
+    echo $CHANNEL_ID
     # Run the Python script and redirect errors to the log file
-    python3 $SCRIPT_PATH --config $CONFIG_PATH
+    python3 $SCRIPT_PATH --config $CONFIG_FILE
     # If the Python script exits with an error, send the log content
     if [ $? -ne 0 ]; then
         sendMessage
