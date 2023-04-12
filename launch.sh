@@ -16,6 +16,10 @@ restart_script() {
 # Function to exit the script gracefully
 exit_script() {
     echo "Exiting script gracefully..."
+    SCRIPT_PATH=0
+    CONFIG_PATH=0
+    BOT_API_KEY=0
+    CHANNEL_ID=0
     exit 0
 }
 
@@ -51,3 +55,8 @@ while true; do
         restart_script
     fi
 done
+SCRIPT_PATH=0
+CONFIG_PATH=0
+BOT_API_KEY=0
+CHANNEL_ID=0
+exit 0
