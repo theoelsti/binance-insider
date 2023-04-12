@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="docs/images/binance-insider_logo.png"><a href="https://github.com/theoelsti/binance-insider">Binance Insider</a>
+    <img src="assets/binance-insider_logo.png"><a href="https://github.com/theoelsti/binance-insider">Binance Insider</a>
     <br/>
     <sup><em>Python program to alert from binance futures traders trades.</em></sup>
 </p>
