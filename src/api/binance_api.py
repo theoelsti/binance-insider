@@ -1,15 +1,14 @@
-import requests
+import requests, requests.exceptions
 import json
 from time import sleep
 import database.db_functions as sql
-
 HEADERS = {
     'Content-Type': 'application/json'
 }
 
 
-def handle_error(trader_uid):
-    print(f"Error while fetching trades for trader: {trader_uid}")
+def handle_error(trader_uid,e="Not provided"):
+    print(f"Error while fetching trades for trader: {trader_uid}, Error : {e}")
 
 def fetch_top_traders(limit, trade_type="PERPETUAL"):
     """
@@ -54,8 +53,8 @@ def fetch_trader_trades(trader_uid, trade_type="PERPETUAL"):
     headers = HEADERS
     try:
         response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-    except Exception:
-        handle_error(trader_uid)
+    except requests.exceptions.RequestException as e:
+        handle_error(trader_uid,e)
         return []
 
     if response.status_code != 200:
