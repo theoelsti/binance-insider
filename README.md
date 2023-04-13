@@ -1,5 +1,5 @@
 <p align="center">
-<img src="assets/binance-insider_logo.jpg" width="100" height="100">
+<img src="https://github.com/theoelsti/binance-insider/blob/master/assets/binance-insider_logo.jpg" width="100" height="100">
 </p>
 <p align="center">
     <a href="https://github.com/theoelsti/binance-insider">Binance Insider</a>
@@ -11,7 +11,7 @@
     <a>
         <img src="https://img.shields.io/badge/Made%20with-Python-1f425f.svg" alt="Python version">
     </a>
-    <a href="https://deepsource.io/gh/theoelsti/binance-insider">
+    <a href="https://deepsource.io/gh/theoelsti/binance-insider" target="_blank">
         <img src="https://deepsource.io/gh/theoelsti/binance-insider.svg/?label=active+issues" alt="DeepSource">
     </a>
     
@@ -71,7 +71,7 @@ After changing your mysql root password, follow these following steps to create 
 ```sh=
 mysql -u root -p
 CREATE USER 'binance_insider'@'{%|<localhost>}' IDENTIFIED WITH mysql_native_password BY '<YOUR_STRONG_PASSWORD>'; 
-GRANT SELECT, UPDATE, DELETE ON binance_insider.* TO 'binance_insider'@'{%|<localhost>}';
+GRANT SELECT, UPDATE, DELETE,INSERT ON binance_insider.* TO 'binance_insider'@'{%|<localhost>}';
 FLUSH PRIVILEGES;
 ```
 
