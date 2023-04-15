@@ -180,7 +180,7 @@ def check_for_profit(s_trade):
                 if int(roe_percentage) > int(announced_trade) + int(settings_config['profit_threshold']):
                     cursor.execute("UPDATE trades SET announced_roe = %s WHERE id = %s", (int(announced_trade) + int(settings_config['profit_threshold']), s_trade[0]))
                     conn.commit()
-                    return int(announced_trade) + settings_config['profit_threshold']
+                    return int(announced_trade) + int(settings_config['profit_threshold'])
                 else:
                     return 0
             else:
