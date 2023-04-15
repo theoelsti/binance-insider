@@ -45,6 +45,7 @@ if __name__ == "__main__":
                     last_print_time = current_time
                     # Format [DD-MM-YYYY HH:MM:SS]
                     print(f"[{current_date.strftime('%d-%m-%Y %H:%M:%S')}] [i] Bot is running. Total trades stored : " + str(db_functions.count_total_trades()))
+                    top10 =  get_traders()
                if working is True:
                    main()
                    sleep(20)
